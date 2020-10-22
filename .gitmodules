@@ -1,0 +1,3 @@
+[submodule "Tron/vendor/spdlog"]
+	path = Tron/vendor/spdlog
+	url = https://github.com/gabime/spdlog
