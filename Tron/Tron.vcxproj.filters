@@ -4,6 +4,9 @@
     <Filter Include="Tron">
       <UniqueIdentifier>{08138D7C-F449-8E0D-9D36-7410894C0A0F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tron\Events">
+      <UniqueIdentifier>{EC053E4C-58BB-B641-E1AF-B0184D64AD45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Tron.h" />
@@ -15,6 +18,18 @@
     </ClInclude>
     <ClInclude Include="src\Tron\EntryPoint.h">
       <Filter>Tron</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tron\Events\ApplicationEvent.h">
+      <Filter>Tron\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tron\Events\Event.h">
+      <Filter>Tron\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tron\Events\KeyEvent.h">
+      <Filter>Tron\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tron\Events\MouseEvent.h">
+      <Filter>Tron\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Tron\Log.h">
       <Filter>Tron</Filter>

@@ -23,6 +23,7 @@ project "Tron"
     }
 
     includedirs {
+        "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include"
     }
 
@@ -66,8 +67,8 @@ project "Sandbox"
     }
 
     includedirs {
-        "Tron/vendor/spdlog/include",
-        "Tron/src"
+        "Tron/src",
+        "Tron/vendor/spdlog/include"
     }
 
     links {
