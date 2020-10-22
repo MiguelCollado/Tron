@@ -12,8 +12,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Tron/vendor/GLFW/include"
+IncludeDir["Glad"] = "Tron/vendor/Glad/include"
+IncludeDir["ImGui"] = "Tron/vendor/imgui"
 
 include "Tron/vendor/GLFW"
+include "Tron/vendor/Glad"
+include "Tron/vendor/imgui"
 
 project "Tron"
     location "Tron"
@@ -34,11 +38,15 @@ project "Tron"
     includedirs {
         "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.ImGui}"
     }
 
     links {
         "GLFW",
+        "Glad",
+        "ImGui",
         "opengl32.lib"
     }
 
@@ -49,7 +57,8 @@ project "Tron"
 
         defines {
             "TN_PLATFORM_WINDOWS",
-            "TN_BUILD_DLL"
+            "TN_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands {

@@ -18,6 +18,7 @@ class Sandbox : public Tron::Application {
 public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Tron::ImGuiLayer());
 	}
 
 	~Sandbox() {

@@ -5,6 +5,8 @@
 #include "Tron/Events/KeyEvent.h"
 #include "Tron/Events/ApplicationEvent.h"
 
+#include <glad/glad.h>
+
 namespace Tron {
 
 	static bool s_GLFWInitialized = false;
@@ -41,6 +43,11 @@ namespace Tron {
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+
+		// Glad
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		TN_CORE_ASSERT(status, "Failed to initialize Glad!");
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
