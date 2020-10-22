@@ -1,3 +1,6 @@
 [submodule "Tron/vendor/spdlog"]
 	path = Tron/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Tron/vendor/GLFW"]
+	path = Tron/vendor/GLFW
+	url = https://github.com/TheCherno/glfw

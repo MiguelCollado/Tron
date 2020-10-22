@@ -9,6 +9,12 @@ workspace "Tron"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Tron/vendor/GLFW/include"
+
+include "Tron/vendor/GLFW"
+
 project "Tron"
     location "Tron"
     kind "SharedLib"
@@ -17,6 +23,9 @@ project "Tron"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+    pchheader "tnpch.h"
+    pchsource "Tron/src/tnpch.cpp"
+
     files {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp"
@@ -24,7 +33,13 @@ project "Tron"
 
     includedirs {
         "%{prj.name}/src",
-        "%{prj.name}/vendor/spdlog/include"
+        "%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"
+    }
+
+    links {
+        "GLFW",
+        "opengl32.lib"
     }
 
     filter "system:windows"

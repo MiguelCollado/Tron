@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Tron {
 
 	class TRON_API KeyEvent : public Event {

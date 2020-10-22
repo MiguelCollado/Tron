@@ -1,11 +1,15 @@
+#include "tnpch.h"
 #include "Application.h"
 
 #include "Tron/Events/ApplicationEvent.h"
 #include "Tron/Log.h"
 
+#include <GLFW/glfw3.h>
+
 namespace Tron {
 	Application::Application()
 	{
+		m_Window = std::unique_ptr<Window>(Window::Create());
 	}
 
 	Application::~Application()
@@ -13,11 +17,11 @@ namespace Tron {
 	}
 
 	void Application::Run() {
-
-		WindowResizeEvent e(1280, 720);
-		TN_TRACE(e);
-
-		while (true);
+		while (m_Running) {
+			glClearColor(1, 0, 1, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+			m_Window->OnUpdate();
+		}
 	}
 }
 

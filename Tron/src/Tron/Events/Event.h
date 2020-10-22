@@ -2,9 +2,6 @@
 
 #include "Tron/Core.h"
 
-#include <string>
-#include <functional>
-
 namespace Tron {
 
 	// Los eventos actualmente en Tron son bloqueantes. Esto quiere decir que cuando

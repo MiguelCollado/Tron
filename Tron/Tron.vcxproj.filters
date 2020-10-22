@@ -34,6 +34,9 @@
     <ClInclude Include="src\Tron\Log.h">
       <Filter>Tron</Filter>
     </ClInclude>
+    <ClInclude Include="src\tnpch.h" />
+    <ClInclude Include="src\Tron\Window.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Tron\Application.cpp">
@@ -42,5 +45,7 @@
     <ClCompile Include="src\Tron\Log.cpp">
       <Filter>Tron</Filter>
     </ClCompile>
+    <ClCompile Include="src\tnpch.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
 </Project>
