@@ -7,6 +7,8 @@ workspace "Tron"
         "Dist"
     }
 
+startproject "Sandbox"
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
@@ -15,14 +17,19 @@ IncludeDir["GLFW"] = "Tron/vendor/GLFW/include"
 IncludeDir["Glad"] = "Tron/vendor/Glad/include"
 IncludeDir["ImGui"] = "Tron/vendor/imgui"
 
-include "Tron/vendor/GLFW"
-include "Tron/vendor/Glad"
-include "Tron/vendor/imgui"
+group "Dependencias"
+    include "Tron/vendor/GLFW"
+    include "Tron/vendor/Glad"
+    include "Tron/vendor/imgui"
+
+group ""
+
 
 project "Tron"
     location "Tron"
     kind "SharedLib"
     language "C++"
+    staticruntime "off"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -52,7 +59,6 @@ project "Tron"
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines {
@@ -62,28 +68,29 @@ project "Tron"
         }
 
         postbuildcommands {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+            ("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
         }
 
     filter "configurations:Debug"
         defines "TN_DEBUG"
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines "TN_RELEASE"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
     filter "configurations:Dist"
         defines "TN_DIST"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
+    staticruntime "off"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -104,7 +111,6 @@ project "Sandbox"
 
     filter "system:windows"
         cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines {
@@ -113,15 +119,15 @@ project "Sandbox"
 
     filter "configurations:Debug"
         defines "TN_DEBUG"
-        buildoptions "/MDd"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines "TN_RELEASE"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"
 
     filter "configurations:Dist"
         defines "TN_DIST"
-        buildoptions "/MD"
+        runtime "Release"
         optimize "On"

@@ -6,11 +6,12 @@ public:
 		: Layer("Example") {}
 
 	void OnUpdate() override {
-		TN_INFO("ExampleLayer::Update");
+	
+		if (Tron::Input::IsKeyPressed(TN_KEY_TAB))
+			TN_INFO("Tab key is pressed!");
 	}
 
 	void OnEvent(Tron::Event& event) override {
-		TN_TRACE("{0}", event);
 	}
 };
 

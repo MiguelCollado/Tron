@@ -65,6 +65,10 @@
       <Filter>Tron</Filter>
     </ClInclude>
     <ClInclude Include="src\tnpch.h" />
+    <ClInclude Include="src\Tron\Input.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\Tron\KeyCodes.h" />
+    <ClInclude Include="src\Tron\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\imGuiOpenGLRenderer.cpp">
@@ -89,5 +93,6 @@
       <Filter>Tron</Filter>
     </ClCompile>
     <ClCompile Include="src\tnpch.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>
