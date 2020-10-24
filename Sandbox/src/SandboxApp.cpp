@@ -8,7 +8,7 @@ public:
 	void OnUpdate() override {
 	
 		if (Tron::Input::IsKeyPressed(TN_KEY_TAB))
-			TN_INFO("Tab key is pressed!");
+			TN_TRACE("Tab key is pressed!");
 	}
 
 	void OnEvent(Tron::Event& event) override {
