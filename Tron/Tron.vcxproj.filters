@@ -4,9 +4,6 @@
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform\OpenGL">
-      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Platform\Windows">
       <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
     </Filter>
@@ -21,8 +18,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Platform\OpenGL\imGuiOpenGLRenderer.h">
-      <Filter>Platform\OpenGL</Filter>
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
+      <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
@@ -52,6 +49,12 @@
     <ClInclude Include="src\Tron\ImGui\ImGuiLayer.h">
       <Filter>Tron\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tron\Input.h">
+      <Filter>Tron</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tron\KeyCodes.h">
+      <Filter>Tron</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tron\Layer.h">
       <Filter>Tron</Filter>
     </ClInclude>
@@ -61,24 +64,26 @@
     <ClInclude Include="src\Tron\Log.h">
       <Filter>Tron</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tron\MouseButtonCodes.h">
+      <Filter>Tron</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tron\Window.h">
       <Filter>Tron</Filter>
     </ClInclude>
     <ClInclude Include="src\tnpch.h" />
-    <ClInclude Include="src\Tron\Input.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
-    <ClInclude Include="src\Tron\KeyCodes.h" />
-    <ClInclude Include="src\Tron\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Platform\OpenGL\imGuiOpenGLRenderer.cpp">
-      <Filter>Platform\OpenGL</Filter>
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Tron\Application.cpp">
       <Filter>Tron</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tron\ImGui\ImGuiBuild.cpp">
+      <Filter>Tron\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Tron\ImGui\ImGuiLayer.cpp">
       <Filter>Tron\ImGui</Filter>
@@ -93,6 +98,5 @@
       <Filter>Tron</Filter>
     </ClCompile>
     <ClCompile Include="src\tnpch.cpp" />
-    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

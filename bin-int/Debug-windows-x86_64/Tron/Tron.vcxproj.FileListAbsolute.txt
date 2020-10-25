@@ -1,0 +1,2 @@
+C:\Workspace\Tron\bin\Debug-windows-x86_64\Tron\Tron.pdb
+C:\Workspace\Tron\bin-int\Debug-windows-x86_64\Tron\Tron.pdb

@@ -7,6 +7,8 @@
 #include "Tron/Events/Event.h"
 #include "Tron/Events/ApplicationEvent.h"
 
+#include "Tron/ImGui/ImGuiLayer.h"
+
 
 namespace Tron {
 
@@ -29,6 +31,7 @@ namespace Tron {
 		bool OnWindowClose(WindowCloseEvent& e);
 	private:
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:

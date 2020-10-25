@@ -1,11 +1,15 @@
 #pragma once
 
 #ifdef TN_PLATFORM_WINDOWS
+#if TN_DYNAMIC_LINK
 	#ifdef TN_BUILD_DLL
 		#define TRON_API __declspec(dllexport)
 	#else
 		#define TRON_API __declspec(dllimport)
 	#endif
+#else
+	#define TRON_API
+#endif
 #else
 	#error Tron only supports Windows!
 #endif

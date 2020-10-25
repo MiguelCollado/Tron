@@ -16,6 +16,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Tron/vendor/GLFW/include"
 IncludeDir["Glad"] = "Tron/vendor/Glad/include"
 IncludeDir["ImGui"] = "Tron/vendor/imgui"
+IncludeDir["glm"] = "Tron/vendor/glm"
 
 group "Dependencias"
     include "Tron/vendor/GLFW"
@@ -27,9 +28,10 @@ group ""
 
 project "Tron"
     location "Tron"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
-    staticruntime "off"
+    cppdialect "C++17"
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -47,7 +49,12 @@ project "Tron"
         "%{prj.name}/vendor/spdlog/include",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}"
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.glm}"
+    }
+
+    defines {
+        "_CRT_SECURE_NO_WARNINGS"
     }
 
     links {
@@ -58,7 +65,6 @@ project "Tron"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
         systemversion "latest"
 
         defines {
@@ -67,30 +73,27 @@ project "Tron"
             "GLFW_INCLUDE_NONE"
         }
 
-        postbuildcommands {
-            ("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
-        }
-
     filter "configurations:Debug"
         defines "TN_DEBUG"
         runtime "Debug"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "TN_RELEASE"
         runtime "Release"
-        optimize "On"
+        optimize "on"
 
     filter "configurations:Dist"
         defines "TN_DIST"
         runtime "Release"
-        optimize "On"
+        optimize "on"
 
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
-    staticruntime "off"
+    cppdialect "C++17"
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -102,7 +105,9 @@ project "Sandbox"
 
     includedirs {
         "Tron/src",
-        "Tron/vendor/spdlog/include"
+        "Tron/vendor",
+        "Tron/vendor/spdlog/include",
+        "%{IncludeDir.glm}"
     }
 
     links {
@@ -110,7 +115,6 @@ project "Sandbox"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
         systemversion "latest"
 
         defines {
@@ -120,14 +124,14 @@ project "Sandbox"
     filter "configurations:Debug"
         defines "TN_DEBUG"
         runtime "Debug"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "TN_RELEASE"
         runtime "Release"
-        optimize "On"
+        optimize "on"
 
     filter "configurations:Dist"
         defines "TN_DIST"
         runtime "Release"
-        optimize "On"
+        optimize "on"
