@@ -71,6 +71,8 @@
       <Filter>Tron</Filter>
     </ClInclude>
     <ClInclude Include="src\tnpch.h" />
+    <ClInclude Include="src\Tron\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -98,5 +100,6 @@
       <Filter>Tron</Filter>
     </ClCompile>
     <ClCompile Include="src\tnpch.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
   </ItemGroup>
 </Project>
