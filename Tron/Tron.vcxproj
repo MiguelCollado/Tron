@@ -159,6 +159,7 @@
     <ClInclude Include="src\Tron\Log.h" />
     <ClInclude Include="src\Tron\MouseButtonCodes.h" />
     <ClInclude Include="src\Tron\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Tron\Renderer\Shader.h" />
     <ClInclude Include="src\Tron\Window.h" />
     <ClInclude Include="src\tnpch.h" />
   </ItemGroup>
@@ -175,6 +176,7 @@
     <ClCompile Include="src\tnpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Tron\Renderer\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

@@ -6,8 +6,6 @@
 
 namespace Tron {
 
-	
-
 	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)
 		: m_WindowHandle(windowHandle)
 	{
@@ -19,6 +17,11 @@ namespace Tron {
 		glfwMakeContextCurrent(m_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		TN_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+		TN_CORE_INFO("OpenGL Info:");
+		TN_CORE_INFO("  Vendor:   {0}", glGetString(GL_VENDOR));
+		TN_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
+		TN_CORE_INFO("  Version:  {0}", glGetString(GL_VERSION));
 	}
 
 	void OpenGLContext::SwapBuffers()
