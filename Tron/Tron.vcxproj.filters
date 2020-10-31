@@ -74,6 +74,9 @@
     <ClInclude Include="src\Tron\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Tron\Renderer\Shader.h" />
+    <ClInclude Include="src\Tron\Renderer\Buffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
+    <ClInclude Include="src\Tron\Renderer\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -103,5 +106,8 @@
     <ClCompile Include="src\tnpch.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Tron\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Tron\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Tron\Renderer\Renderer.cpp" />
   </ItemGroup>
 </Project>
