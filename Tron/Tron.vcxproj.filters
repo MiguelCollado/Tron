@@ -77,6 +77,11 @@
     <ClInclude Include="src\Tron\Renderer\Buffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Tron\Renderer\Renderer.h" />
+    <ClInclude Include="src\Tron\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\Tron\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\Tron\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -109,5 +114,10 @@
     <ClCompile Include="src\Tron\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Tron\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Tron\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\Tron\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\Tron\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
   </ItemGroup>
 </Project>
