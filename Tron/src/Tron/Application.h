@@ -6,16 +6,13 @@
 #include "Tron/LayerStack.h"
 #include "Tron/Events/Event.h"
 #include "Tron/Events/ApplicationEvent.h"
+#include "Tron/Core/Timestep.h"
 
 #include "Tron/ImGui/ImGuiLayer.h"
 
-#include "Tron/Renderer/Shader.h"
-#include "Tron/Renderer/Buffer.h"
-#include "Tron/Renderer/VertexArray.h"
-
 namespace Tron {
 
-	class TRON_API Application
+	class Application
 	{
 	public:
 		Application();
@@ -37,13 +34,7 @@ namespace Tron {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
-
+		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
 	};

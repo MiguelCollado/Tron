@@ -32,11 +32,11 @@ namespace Tron {
 		uint32_t Offset;
 		bool Normalized;
 
-		BufferElement() {}
-		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
-			: Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized) {
+		BufferElement()
+			: Name("Unnamed"), Type(ShaderDataType::None), Size(0), Offset(0), Normalized(false) {}
 
-		}
+		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
+			: Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized) {}
 
 		uint32_t GetComponentCount() const { 
 			switch (Type) {
