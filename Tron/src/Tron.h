@@ -20,6 +20,7 @@
 
 #include "Tron/Renderer/Buffer.h"
 #include "Tron/Renderer/Shader.h"
+#include "Tron/Renderer/Texture.h"
 #include "Tron/Renderer/VertexArray.h"
 
 #include "Tron/Renderer/OrthographicCamera.h"

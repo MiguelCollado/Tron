@@ -13,6 +13,4 @@ namespace Tron {
 
 		static Shader* Create(const std::string& vertexSrc, const std::string& fragmentSrc);
 	};
-
-
 }

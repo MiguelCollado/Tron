@@ -38,18 +38,19 @@ public:
 
 		m_SquareVA.reset(Tron::VertexArray::Create());
 
-		float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f,
+		float squareVertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
 		Tron::Ref<Tron::VertexBuffer> squareVB;
 		squareVB.reset(Tron::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 
 		squareVB->SetLayout({
-			{ Tron::ShaderDataType::Float3, "a_Position"}
+			{ Tron::ShaderDataType::Float3, "a_Position"},
+			{ Tron::ShaderDataType::Float2, "a_TexCoord"}
 		});
 		m_SquareVA->AddVertexBuffer(squareVB);
 
@@ -62,17 +63,14 @@ public:
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
 			uniform mat4 u_Transform;
 			
 			out vec3 v_Position;
-			out vec4 v_Color;
 
 			void main() {
 				v_Position = a_Position;
-				v_Color = a_Color;
 				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
@@ -84,11 +82,9 @@ public:
 			layout(location = 0) out vec4 color;
 
 			in vec3 v_Position;
-			in vec4 v_Color;
 
 			void main() {
 				color = vec4(v_Position * 0.5 + 0.5, 1.0);
-				color = v_Color;
 			}
 		)";
 
@@ -126,6 +122,45 @@ public:
 		)";
 
 		m_FlatColorShader.reset(Tron::Shader::Create(flatShaderVertexSrc, flatShaderFragmentSrc));
+
+		std::string textureShaderVertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TexCoord;
+
+			void main() {
+				v_TexCoord = a_TexCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+		)";
+
+
+		std::string textureShaderFragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			in vec2 v_TexCoord;
+
+			uniform sampler2D u_Texture;
+
+			void main() {
+				color = texture(u_Texture, v_TexCoord);
+			}
+		)";
+
+		m_TextureShader.reset(Tron::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
+
+		m_Texture = Tron::Texture2D::Create("assets/textures/Checkboard.png");
+
+		std::dynamic_pointer_cast<Tron::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Tron::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Tron::Timestep ts) override {
@@ -169,7 +204,11 @@ public:
 			}
 		}
 
-		Tron::Renderer::Submit(m_Shader, m_VertexArray);
+		m_Texture->Bind();
+		Tron::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+		// Triangle
+		//Renderer::Submit(m_Shader, m_VertexArray);
 
 		Tron::Renderer::EndScene();
 	}
@@ -188,8 +227,10 @@ private:
 	Tron::Ref<Tron::Shader> m_Shader;
 	Tron::Ref<Tron::VertexArray> m_VertexArray;
 
-	Tron::Ref<Tron::Shader> m_FlatColorShader;
+	Tron::Ref<Tron::Shader> m_FlatColorShader, m_TextureShader;
 	Tron::Ref<Tron::VertexArray> m_SquareVA;
+
+	Tron::Ref<Tron::Texture2D> m_Texture;
 
 	Tron::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;

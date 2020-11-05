@@ -17,6 +17,7 @@ IncludeDir["GLFW"] = "Tron/vendor/GLFW/include"
 IncludeDir["Glad"] = "Tron/vendor/Glad/include"
 IncludeDir["ImGui"] = "Tron/vendor/imgui"
 IncludeDir["glm"] = "Tron/vendor/glm"
+IncludeDir["stb_image"] = "Tron/vendor/stb_image"
 
 group "Dependencias"
     include "Tron/vendor/GLFW"
@@ -41,7 +42,11 @@ project "Tron"
 
     files {
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/stb_image/**.h",
+        "%{prj.name}/vendor/stb_image/**.cpp",
+        "%{prj.name}/vendor/glm/glm/**.hpp",
+        "%{prj.name}/vendor/glm/glm/**.inl",
     }
 
     includedirs {
@@ -50,7 +55,8 @@ project "Tron"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.stb_image}"
     }
 
     defines {
