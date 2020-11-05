@@ -33,7 +33,3 @@ namespace Tron {
 #define TN_WARN(...)   ::Tron::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define TN_ERROR(...)  ::Tron::Log::GetClientLogger()->error(__VA_ARGS__)
 #define TN_FATAL(...)  ::Tron::Log::GetClientLogger()->fatal(__VA_ARGS__)
-
-
-
-
