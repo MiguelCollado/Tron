@@ -4,7 +4,7 @@
 
 namespace Tron {
     
-    class TRON_API WindowResizeEvent : public Event {
+    class WindowResizeEvent : public Event {
     public:
         WindowResizeEvent(unsigned int width, unsigned int height)
             : m_Width(width), m_Height(height) {}
@@ -24,7 +24,7 @@ namespace Tron {
         unsigned int m_Width, m_Height;
     };
 
-    class TRON_API WindowCloseEvent : public Event {
+    class WindowCloseEvent : public Event {
     public:
         WindowCloseEvent() {}
 
@@ -32,7 +32,7 @@ namespace Tron {
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
     };
 
-    class TRON_API AppTickEvent : public Event {
+    class AppTickEvent : public Event {
     public:
         AppTickEvent() {}
 
@@ -40,7 +40,7 @@ namespace Tron {
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
     };
 
-    class TRON_API AppUpdateEvent : public Event {
+    class AppUpdateEvent : public Event {
     public:
         AppUpdateEvent() {}
 
@@ -48,7 +48,7 @@ namespace Tron {
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
     };
 
-    class TRON_API AppRenderEvent : public Event {
+    class AppRenderEvent : public Event {
     public:
         AppRenderEvent() {}
 

@@ -4,7 +4,7 @@
 
 namespace Tron {
 
-	class TRON_API KeyEvent : public Event {
+	class KeyEvent : public Event {
 	public:
 		inline int GetKeyCode() const { return m_KeyCode; }
 
@@ -16,7 +16,7 @@ namespace Tron {
 		int m_KeyCode;
 	};
 
-	class TRON_API KeyPressedEvent : public KeyEvent {
+	class KeyPressedEvent : public KeyEvent {
 	public:
 		KeyPressedEvent(int keycode, int repeatCount)
 			: KeyEvent(keycode), m_RepeatCount(repeatCount) {}
@@ -34,7 +34,7 @@ namespace Tron {
 		int m_RepeatCount;
 	};
 
-	class TRON_API KeyReleasedEvent : public KeyEvent {
+	class KeyReleasedEvent : public KeyEvent {
 	public:
 		KeyReleasedEvent(int keycode)
 			: KeyEvent(keycode) {}
@@ -48,7 +48,7 @@ namespace Tron {
 		EVENT_CLASS_TYPE(KeyReleased);
 	};
 
-	class TRON_API KeyTypedEvent : public KeyEvent {
+	class KeyTypedEvent : public KeyEvent {
 	public:
 		KeyTypedEvent(int keycode)
 			: KeyEvent(keycode) {}

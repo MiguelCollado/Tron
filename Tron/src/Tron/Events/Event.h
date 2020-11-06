@@ -6,8 +6,8 @@ namespace Tron {
 
 	// Los eventos actualmente en Tron son bloqueantes. Esto quiere decir que cuando
 	// ocurre un evento inmediatamente se despacha y debe ser resuelto en ese momento.
-	// En un futuro, una mejor estrategia sería crear un buffer de eventos en un bus de
-	// eventos y procesarlos durante la fase "evento" de la etapa de actualización.
+	// En un futuro, una mejor estrategia serï¿½a crear un buffer de eventos en un bus de
+	// eventos y procesarlos durante la fase "evento" de la etapa de actualizaciï¿½n.
 
 	enum class EventType {
 		None = 0,
@@ -32,7 +32,7 @@ namespace Tron {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-	class TRON_API Event {
+	class Event {
 		friend class EventDispatcher;
 	public:
 		virtual EventType GetEventType() const = 0;

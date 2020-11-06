@@ -18,7 +18,7 @@ namespace Tron {
 			: Title(title), Width(width), Height(height) {}
 	};
 
-	class TRON_API Window {
+	class Window {
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
 

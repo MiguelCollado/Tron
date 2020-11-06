@@ -1,6 +1,6 @@
 #include <Tron.h>
 
-#include "imgui/imgui.h"
+#include "imgui.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -88,7 +88,7 @@ public:
 			}
 		)";
 
-		m_Shader.reset(Tron::Shader::Create(vertexSrc, fragmentSrc));
+		m_Shader = Tron::Shader::Create("VertexPosColor", vertexSrc, fragmentSrc);
 
 		std::string flatShaderVertexSrc = R"(
 			#version 330 core
@@ -121,15 +121,15 @@ public:
 			}
 		)";
 
-		m_FlatColorShader.reset(Tron::Shader::Create(flatShaderVertexSrc, flatShaderFragmentSrc));
+		m_FlatColorShader = Tron::Shader::Create("FlatColor", flatShaderVertexSrc, flatShaderFragmentSrc);
 
-		m_TextureShader.reset(Tron::Shader::Create("assets/shaders/Texture.glsl"));
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		m_Texture = Tron::Texture2D::Create("assets/textures/Checkboard.png");
 		m_LogoTexture = Tron::Texture2D::Create("assets/textures/Logo.png");
 
-		std::dynamic_pointer_cast<Tron::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Tron::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Tron::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Tron::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Tron::Timestep ts) override {
@@ -173,11 +173,13 @@ public:
 			}
 		}
 
+		auto textureShader = m_ShaderLibrary.Get("Texture");
+
 		m_Texture->Bind();
-		Tron::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		Tron::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		m_LogoTexture->Bind();
-		Tron::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		Tron::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		// Triangle
 		//Renderer::Submit(m_Shader, m_VertexArray);
@@ -185,7 +187,7 @@ public:
 		Tron::Renderer::EndScene();
 	}
 
-	virtual void OnImGuiRender() override {
+	void OnImGuiRender() override {
 		ImGui::Begin("Settings");
 		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
@@ -195,11 +197,11 @@ public:
 	}
 
 private:
-
+    Tron::ShaderLibrary m_ShaderLibrary;
 	Tron::Ref<Tron::Shader> m_Shader;
 	Tron::Ref<Tron::VertexArray> m_VertexArray;
 
-	Tron::Ref<Tron::Shader> m_FlatColorShader, m_TextureShader;
+	Tron::Ref<Tron::Shader> m_FlatColorShader;
 	Tron::Ref<Tron::VertexArray> m_SquareVA;
 
 	Tron::Ref<Tron::Texture2D> m_Texture;

@@ -5,7 +5,7 @@
 
 namespace Tron {
 
-	class TRON_API LayerStack
+	class LayerStack
 	{
 	public:
 		LayerStack();

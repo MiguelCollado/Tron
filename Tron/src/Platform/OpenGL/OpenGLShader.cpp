@@ -4,6 +4,7 @@
 #include <fstream>
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <utility>
 
 namespace Tron {
 
@@ -16,13 +17,23 @@ namespace Tron {
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& filepath)
+	    : m_RendererID(0)
 	{
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
+
+		// Extract name from filepath
+		auto lastSlash = filepath.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		auto lastDot = filepath.rfind('.');
+		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+
+		m_Name = filepath.substr(lastSlash, count);
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+	OpenGLShader::OpenGLShader(std::string name, const std::string& vertexSrc, const std::string& fragmentSrc)
+	    : m_Name(std::move(name))
 	{
 		std::unordered_map<GLenum, std::string> shaderSources;
 		shaderSources[GL_VERTEX_SHADER] = vertexSrc;
@@ -45,43 +56,43 @@ namespace Tron {
 		glUseProgram(0);
 	}
 
-	void OpenGLShader::UploadUniformInt(const std::string& name, int value)
+	void OpenGLShader::UploadUniformInt(const std::string& name, int value) const
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform1i(location, value);
 	}
 
-	void OpenGLShader::UploadUniformFloat(const std::string& name, float value)
+	void OpenGLShader::UploadUniformFloat(const std::string& name, float value) const
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform1f(location, value);
 	}
 
-	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& values)
+	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& values) const
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform2f(location, values.x, values.y);
 	}
 
-	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& values)
+	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& values) const
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform3f(location, values.x, values.y, values.z);
 	}
 
-	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& values)
+	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& values) const
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform4f(location, values.x, values.y, values.z, values.w);
 	}
 
-	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix)
+	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix) const
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
+	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) const
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
@@ -90,7 +101,7 @@ namespace Tron {
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
 	{
 		std::string result;
-		std::ifstream in(filepath, std::ios::in, std::ios::binary);
+		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 
 		if (in) {
 			in.seekg(0, std::ios::end);
@@ -132,7 +143,9 @@ namespace Tron {
 	{
 
 		GLuint program = glCreateProgram();
-		std::vector<GLenum> glShaderIDs(shaderSources.size());
+		TN_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
+		std::array<GLenum, 2> glShaderIDs {};
+		int glShaderIDIndex = 0;
 
 		for (auto& kv : shaderSources) {
 			GLenum type = kv.first;
@@ -163,7 +176,7 @@ namespace Tron {
 			}
 
 			glAttachShader(program, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[glShaderIDIndex++] = shader;
 		}
 
 		glLinkProgram(program);
