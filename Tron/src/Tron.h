@@ -11,6 +11,7 @@
 #include "Tron/Input.h"
 #include "Tron/KeyCodes.h"
 #include "Tron/MouseButtonCodes.h"
+#include "Tron/Renderer/OrthographicCameraController.h"
 
 #include "Tron/ImGui/ImGuiLayer.h"
 

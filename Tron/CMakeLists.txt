@@ -86,7 +86,7 @@ set(SOURCES
         src/Platform/Windows/WindowsWindow.h
         src/Tron.h
         src/tnpch.cpp
-        src/tnpch.h)
+        src/tnpch.h src/Tron/Renderer/OrthographicCameraController.cpp src/Tron/Renderer/OrthographicCameraController.h)
 
 include_directories(src)
 

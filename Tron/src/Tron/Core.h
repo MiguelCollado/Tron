@@ -2,8 +2,6 @@
 
 #include <memory>
 
-#define TN_PLATFORM_WINDOWS
-
 #ifdef TN_PLATFORM_WINDOWS
 #if TN_DYNAMIC_LINK
 	#ifdef TN_BUILD_DLL

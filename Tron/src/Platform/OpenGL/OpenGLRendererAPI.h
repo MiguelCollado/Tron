@@ -6,13 +6,14 @@ namespace Tron {
 	class OpenGLRendererAPI : public RendererAPI
 	{
 	public:
-		// Heredado vía RendererAPI
-		virtual void Init() override;
+		// Heredado vÃ­a RendererAPI
+		void Init() override;
 
-		virtual void SetClearColor(const glm::vec4& color) override;
-		virtual void Clear() override;
+        void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
+        void SetClearColor(const glm::vec4& color) override;
+		void Clear() override;
 
-		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) override;
+		void DrawIndexed(const Ref<VertexArray>& vertexArray) override;
 	};
 }
 
