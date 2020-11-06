@@ -2,15 +2,15 @@
 
 // Tron Header -> Uso exclusivo para aplicaciones Tron
 
-#include "Tron/Application.h"
-#include "Tron/Layer.h"
-#include "Tron/Log.h"
+#include "Tron/Core/Application.h"
+#include "Tron/Core/Layer.h"
+#include "Tron/Core/Log.h"
 
 #include "Tron/Core/Timestep.h"
 
-#include "Tron/Input.h"
-#include "Tron/KeyCodes.h"
-#include "Tron/MouseButtonCodes.h"
+#include "Tron/Core/Input.h"
+#include "Tron/Core/KeyCodes.h"
+#include "Tron/Core/MouseButtonCodes.h"
 #include "Tron/Renderer/OrthographicCameraController.h"
 
 #include "Tron/ImGui/ImGuiLayer.h"
@@ -29,5 +29,5 @@
 
 
 // ------ Entry Point ------
-#include "Tron/EntryPoint.h"
+#include "Tron/Core/EntryPoint.h"
 // -------------------------

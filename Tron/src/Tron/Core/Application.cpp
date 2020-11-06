@@ -1,7 +1,7 @@
 #include "tnpch.h"
 #include "Application.h"
 
-#include "Tron/Log.h"
+#include "Log.h"
 
 #include "Tron/Renderer/Renderer.h"
 

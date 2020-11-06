@@ -2,7 +2,7 @@
 
 #include "tnpch.h"
 
-#include "Tron/Core.h"
+#include "Core.h"
 #include "Tron/Events/Event.h"
 
 namespace Tron {

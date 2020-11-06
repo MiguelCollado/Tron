@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tron/Core.h"
+#include "Core.h"
 
 namespace Tron {
 

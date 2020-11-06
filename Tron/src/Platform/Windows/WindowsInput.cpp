@@ -1,7 +1,7 @@
 #include "tnpch.h"
 #include "WindowsInput.h"
 
-#include "Tron/Application.h"
+#include "Tron/Core/Application.h"
 #include <GLFW/glfw3.h> 
 
 namespace Tron {

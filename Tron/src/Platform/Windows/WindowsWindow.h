@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tron/Window.h"
+#include "Tron/Core/Window.h"
 #include "Tron/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>

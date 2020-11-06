@@ -29,21 +29,21 @@ set(GLAD_SRC
         vendor/Glad/src/glad.c)
 
 set(SOURCES
-        src/Tron/Application.cpp
-        src/Tron/Application.h
-        src/Tron/Core.h
-        src/Tron/EntryPoint.h
-        src/Tron/Input.h
-        src/Tron/KeyCodes.h
-        src/Tron/Layer.cpp
-        src/Tron/Layer.h
-        src/Tron/LayerStack.cpp
-        src/Tron/LayerStack.h
-        src/Tron/Log.cpp
-        src/Tron/Log.h
-        src/Tron/MouseButtonCodes.h
+        src/Tron/Core/Application.cpp
+        src/Tron/Core/Application.h
+        src/Tron/Core/Core.h
+        src/Tron/Core/EntryPoint.h
+        src/Tron/Core/Input.h
+        src/Tron/Core/KeyCodes.h
+        src/Tron/Core/Layer.cpp
+        src/Tron/Core/Layer.h
+        src/Tron/Core/LayerStack.cpp
+        src/Tron/Core/LayerStack.h
+        src/Tron/Core/Log.cpp
+        src/Tron/Core/Log.h
+        src/Tron/Core/MouseButtonCodes.h
         src/Tron/Core/Timestep.h
-        src/Tron/Window.h
+        src/Tron/Core/Window.h
         src/Tron/Events/ApplicationEvent.h
         src/Tron/Events/Event.h
         src/Tron/Events/KeyEvent.h
@@ -86,7 +86,9 @@ set(SOURCES
         src/Platform/Windows/WindowsWindow.h
         src/Tron.h
         src/tnpch.cpp
-        src/tnpch.h src/Tron/Renderer/OrthographicCameraController.cpp src/Tron/Renderer/OrthographicCameraController.h)
+        src/tnpch.h
+        src/Tron/Renderer/OrthographicCameraController.cpp
+        src/Tron/Renderer/OrthographicCameraController.h)
 
 include_directories(src)
 

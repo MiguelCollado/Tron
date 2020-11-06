@@ -4,8 +4,8 @@
 #include "tnpch.h"
 #include "OrthographicCameraController.h"
 
-#include <Tron/Input.h>
-#include <Tron/KeyCodes.h>
+#include <Tron/Core/Input.h>
+#include <Tron/Core/KeyCodes.h>
 
 namespace Tron {
 
