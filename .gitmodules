@@ -1,12 +1,16 @@
 [submodule "Tron/vendor/spdlog"]
 	path = Tron/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+	branch = v1.x
 [submodule "Tron/vendor/GLFW"]
 	path = Tron/vendor/GLFW
 	url = https://github.com/TheCherno/glfw
+	branch = master
 [submodule "Tron/vendor/imgui"]
 	path = Tron/vendor/imgui
 	url = https://github.com/TheCherno/imgui
+	branch = docking
 [submodule "Tron/vendor/glm"]
 	path = Tron/vendor/glm
 	url = https://github.com/g-truc/glm
+	branch = master
