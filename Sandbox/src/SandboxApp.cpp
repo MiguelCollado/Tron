@@ -1,7 +1,8 @@
 #include <Tron.h>
+#include <Tron/Core/EntryPoint.h>
 
-#include "imgui.h"
-#include "Platform/OpenGL/OpenGLShader.h"
+#include <imgui.h>
+#include "Sandbox2D.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -11,7 +12,7 @@ public:
 	ExampleLayer()
 		: Layer("Example"), m_CameraController(1280.0f / 720.0f) {
 	
-		m_VertexArray.reset(Tron::VertexArray::Create());
+		m_VertexArray = Tron::VertexArray::Create();
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 1.0f, 1.0f,
@@ -20,7 +21,7 @@ public:
 		};
 
 		Tron::Ref<Tron::VertexBuffer> vertexBuffer; 
-		vertexBuffer.reset(Tron::VertexBuffer::Create(vertices, sizeof(vertices)));
+		vertexBuffer = Tron::VertexBuffer::Create(vertices, sizeof(vertices));
 
 		Tron::BufferLayout layout = {
 			{ Tron::ShaderDataType::Float3, "a_Position"},
@@ -31,12 +32,12 @@ public:
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		Tron::Ref<Tron::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Tron::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-		m_VertexArray->SetIndexBuffer(indexBuffer);
+        Tron::Ref<Tron::IndexBuffer> indexBuffer;
+        indexBuffer = Tron::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
+        m_VertexArray->SetIndexBuffer(indexBuffer);
 
 
-		m_SquareVA.reset(Tron::VertexArray::Create());
+		m_SquareVA = Tron::VertexArray::Create();
 
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -46,7 +47,7 @@ public:
 		};
 
 		Tron::Ref<Tron::VertexBuffer> squareVB;
-		squareVB.reset(Tron::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVB = Tron::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 
 		squareVB->SetLayout({
 			{ Tron::ShaderDataType::Float3, "a_Position"},
@@ -56,7 +57,7 @@ public:
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
 		Tron::Ref<Tron::IndexBuffer> squareIB;
-		squareIB.reset(Tron::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		squareIB = Tron::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
 		std::string vertexSrc = R"(
@@ -128,8 +129,8 @@ public:
 		m_Texture = Tron::Texture2D::Create("assets/textures/Checkboard.png");
 		m_LogoTexture = Tron::Texture2D::Create("assets/textures/Logo.png");
 
-		std::dynamic_pointer_cast<Tron::OpenGLShader>(textureShader)->Bind();
-		std::dynamic_pointer_cast<Tron::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
+		textureShader->Bind();
+		textureShader->SetInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Tron::Timestep ts) override {
@@ -145,8 +146,8 @@ public:
 
 		static glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		std::dynamic_pointer_cast<Tron::OpenGLShader>(m_FlatColorShader)->Bind();
-		std::dynamic_pointer_cast<Tron::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
+		m_FlatColorShader->Bind();
+		m_FlatColorShader->SetFloat3("u_Color", m_SquareColor);
 
 		for (int y = 0; y < 20; y++) {
 			for (int x = 0; x < 20; x++) {
@@ -163,9 +164,6 @@ public:
 
 		m_LogoTexture->Bind();
 		Tron::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-
-		// Triangle
-		//Renderer::Submit(m_Shader, m_VertexArray);
 
 		Tron::Renderer::EndScene();
 	}
@@ -199,7 +197,8 @@ private:
 class Sandbox : public Tron::Application {
 public:
 	Sandbox() {
-		PushLayer(new ExampleLayer());
+//		PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox() override = default;

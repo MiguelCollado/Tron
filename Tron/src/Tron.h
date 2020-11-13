@@ -2,6 +2,8 @@
 
 // Tron Header -> Uso exclusivo para aplicaciones Tron
 
+#include "Tron/Core/Core.h"
+
 #include "Tron/Core/Application.h"
 #include "Tron/Core/Layer.h"
 #include "Tron/Core/Log.h"
@@ -17,6 +19,7 @@
 
 // ------ Renderer ---------
 #include "Tron/Renderer/Renderer.h"
+#include "Tron/Renderer/Renderer2D.h"
 #include "Tron/Renderer/RenderCommand.h"
 
 #include "Tron/Renderer/Buffer.h"
@@ -25,9 +28,4 @@
 #include "Tron/Renderer/VertexArray.h"
 
 #include "Tron/Renderer/OrthographicCamera.h"
-// -------------------------
-
-
-// ------ Entry Point ------
-#include "Tron/Core/EntryPoint.h"
 // -------------------------

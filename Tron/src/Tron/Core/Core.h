@@ -43,22 +43,6 @@
     #error "Unknown platform!"
 #endif // End of platform detection
 
-
-// DLL support
-#ifdef TN_PLATFORM_WINDOWS
-    #if TN_DYNAMIC_LINK
-        #ifdef TN_BUILD_DLL
-            #define TRON_API __declspec(dllexport)
-        #else
-            #define TRON_API __declspec(dllimport)
-        #endif
-    #else
-        #define TRON_API
-    #endif
-#else
-    #error Tron only supports Windows!
-#endif // End of DLL support
-
 #ifdef TN_DEBUG
     #define TN_ENABLE_ASSERTS
 #endif

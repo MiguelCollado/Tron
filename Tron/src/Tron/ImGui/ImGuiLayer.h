@@ -12,11 +12,11 @@ namespace Tron {
 	{
 	public:
 		ImGuiLayer();
-		~ImGuiLayer();
+		~ImGuiLayer() override;
 
-		virtual	void OnAttach() override;
-		virtual	void OnDetach() override;
-		virtual void OnImGuiRender() override;
+		void OnAttach() override;
+		void OnDetach() override;
+		void OnImGuiRender() override;
 
 		void Begin();
 		void End();

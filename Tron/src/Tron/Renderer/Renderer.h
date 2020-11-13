@@ -1,14 +1,17 @@
 #pragma once
 
-#include "RenderCommand.h"
-#include "OrthographicCamera.h"
-#include "Shader.h"
+#include "Tron/Renderer/RenderCommand.h"
+
+#include "Tron/Renderer/OrthographicCamera.h"
+#include "Tron/Renderer/Shader.h"
 
 namespace Tron {
 
 	class Renderer {
 	public:
 		static void Init();
+		static void Shutdown();
+
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
 		static void BeginScene(OrthographicCamera& camera);

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Core.h"
+#include "Tron/Core/Core.h"
 
-#include "Window.h"
-#include "LayerStack.h"
+#include "Tron/Core/Window.h"
+#include "Tron/Core/LayerStack.h"
 #include "Tron/Events/Event.h"
 #include "Tron/Events/ApplicationEvent.h"
 #include "Tron/Core/Timestep.h"

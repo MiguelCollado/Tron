@@ -1,4 +1,5 @@
 #pragma once
+#include "Tron/Core/Core.h"
 
 #ifdef TN_PLATFORM_WINDOWS
 

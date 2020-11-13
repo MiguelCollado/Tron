@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Core.h"
-#include "Layer.h"
+#include "Tron/Core/Core.h"
+#include "Tron/Core/Layer.h"
 
 namespace Tron {
 
 	class LayerStack
 	{
 	public:
-		LayerStack();
+		LayerStack() = default;
 		~LayerStack();
 
 		void PushLayer(Layer* layer);

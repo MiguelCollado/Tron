@@ -1,10 +1,7 @@
 #include "tnpch.h"
-#include "LayerStack.h"
+#include "Tron/Core/LayerStack.h"
 
 namespace Tron {
-	LayerStack::LayerStack()
-	{
-	}
 
 	LayerStack::~LayerStack()
 	{

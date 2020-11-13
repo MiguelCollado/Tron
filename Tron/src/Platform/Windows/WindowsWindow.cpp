@@ -1,5 +1,5 @@
 #include "tnpch.h"
-#include "WindowsWindow.h"
+#include "Platform/Windows/WindowsWindow.h"
 
 #include "Tron/Events/MouseEvent.h"
 #include "Tron/Events/KeyEvent.h"
@@ -10,32 +10,30 @@
 
 namespace Tron {
 
-	static bool s_GLFWInitialized = false;
+	static uint8_t s_GLFWInitialized = 0;
 
 	static void GLFWErrorCallback(int error, const char* description) {
 		TN_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Window* Window::Create(const WindowProps& props) {
-		return new WindowsWindow(props);
+	Scope<Window> Window::Create(const WindowProps& props) {
+		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props) {
 		Init(props);
 	}
 
-	WindowsWindow::~WindowsWindow() {
-	}
+	WindowsWindow::~WindowsWindow() = default;
 
 	void WindowsWindow::Init(const WindowProps& props) {
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
-		TN_CORE_INFO("Creando ventana {0} ({1}, {2})", props.Title, props.Width, props.Height);
+		TN_CORE_INFO("Creating Window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
-		if (!s_GLFWInitialized) {
-			// TODO: glfwTerminate on system shutdown
+		if (s_GLFWInitialized == 0) {
 			int success = glfwInit();
 			TN_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
@@ -43,8 +41,9 @@ namespace Tron {
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+        ++s_GLFWInitialized;
 
-        m_Context = CreateScope<OpenGLContext>(m_Window);
+        m_Context = GraphicsContext::Create(m_Window);
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
@@ -129,6 +128,11 @@ namespace Tron {
 
 	void WindowsWindow::Shutdown() {
 		glfwDestroyWindow(m_Window);
+
+		--s_GLFWInitialized;
+		if (s_GLFWInitialized == 0) {
+		    glfwTerminate();
+		}
 	}
 
 	void WindowsWindow::OnUpdate() {

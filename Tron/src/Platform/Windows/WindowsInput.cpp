@@ -1,5 +1,5 @@
 #include "tnpch.h"
-#include "WindowsInput.h"
+#include "Platform/Windows/WindowsInput.h"
 
 #include "Tron/Core/Application.h"
 #include <GLFW/glfw3.h> 

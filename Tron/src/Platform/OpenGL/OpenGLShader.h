@@ -18,7 +18,12 @@ namespace Tron {
 		void Bind() const override;
 		void Unbind() const override;
 
-		const std::string& GetName() const override { return m_Name; }
+		void SetInt(const std::string& name, int value) override;
+        void SetFloat3(const std::string& name, const glm::vec3 &value) override;
+        void SetFloat4(const std::string& name, const glm::vec4 &value) override;
+        void SetMat4(const std::string& name, const glm::mat4 &value) override;
+
+		[[nodiscard]] const std::string& GetName() const override { return m_Name; }
 
 		void UploadUniformInt(const std::string& name, int value) const;
 
@@ -29,7 +34,8 @@ namespace Tron {
 
 		void UploadUniformMat3(const std::string& name, const glm::mat3& matrix) const;
 		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) const;
-	private:
+
+    private:
 		std::string ReadFile(const std::string& filepath);
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);

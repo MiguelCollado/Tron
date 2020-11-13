@@ -2,7 +2,7 @@
 // Created by mcoll on 06/11/2020.
 //
 #include "tnpch.h"
-#include "OrthographicCameraController.h"
+#include "Tron/Renderer/OrthographicCameraController.h"
 
 #include <Tron/Core/Input.h>
 #include <Tron/Core/KeyCodes.h>

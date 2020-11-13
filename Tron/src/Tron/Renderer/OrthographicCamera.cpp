@@ -1,5 +1,5 @@
 #include "tnpch.h"
-#include "OrthographicCamera.h"
+#include "Tron/Renderer/OrthographicCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 

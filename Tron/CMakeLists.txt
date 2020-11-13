@@ -88,7 +88,7 @@ set(SOURCES
         src/tnpch.cpp
         src/tnpch.h
         src/Tron/Renderer/OrthographicCameraController.cpp
-        src/Tron/Renderer/OrthographicCameraController.h)
+        src/Tron/Renderer/OrthographicCameraController.h src/Tron/Renderer/Renderer2D.cpp src/Tron/Renderer/Renderer2D.h src/Tron/Renderer/GraphicsContext.cpp)
 
 include_directories(src)
 

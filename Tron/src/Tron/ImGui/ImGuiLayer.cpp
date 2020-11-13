@@ -1,9 +1,9 @@
 #include "tnpch.h"
-#include "ImGuiLayer.h"
+#include "Tron/ImGui/ImGuiLayer.h"
 
-#include "imgui.h"
-#include "examples/imgui_impl_glfw.h"
-#include "examples/imgui_impl_opengl3.h"
+#include <imgui.h>
+#include <examples/imgui_impl_glfw.h>
+#include <examples/imgui_impl_opengl3.h>
 
 #include "Tron/Core/Application.h"
 
@@ -16,9 +16,7 @@ namespace Tron {
 	{
 	}
 
-	ImGuiLayer::~ImGuiLayer()
-	{
-	}
+	ImGuiLayer::~ImGuiLayer() = default;
 
 	void ImGuiLayer::OnAttach()
 	{
