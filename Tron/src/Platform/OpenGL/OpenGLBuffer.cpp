@@ -10,24 +10,32 @@ namespace Tron {
 	/////////////////////////////////////////////////////////////////////////////////////
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
 	{
-		glCreateBuffers(1, &m_RendererID);
+        TN_PROFILE_FUNCTION();
+
+        glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
 
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
-		glDeleteBuffers(1, &m_RendererID);
+        TN_PROFILE_FUNCTION();
+
+        glDeleteBuffers(1, &m_RendererID);
 	}
 
 	void Tron::OpenGLVertexBuffer::Bind() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+        TN_PROFILE_FUNCTION();
+
+        glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 	}
 
 	void Tron::OpenGLVertexBuffer::Unbind() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+        TN_PROFILE_FUNCTION();
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -37,24 +45,32 @@ namespace Tron {
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
 		: m_Count(count)
 	{
-		glCreateBuffers(1, &m_RendererID);
+        TN_PROFILE_FUNCTION();
+
+        glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()
 	{
-		glDeleteBuffers(1, &m_RendererID);
+        TN_PROFILE_FUNCTION();
+
+        glDeleteBuffers(1, &m_RendererID);
 	}
 
 	void Tron::OpenGLIndexBuffer::Bind() const
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+        TN_PROFILE_FUNCTION();
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 	}
 
 	void Tron::OpenGLIndexBuffer::Unbind() const
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        TN_PROFILE_FUNCTION();
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 }

@@ -12,7 +12,7 @@
 
 #include "Tron/Core/Input.h"
 #include "Tron/Core/KeyCodes.h"
-#include "Tron/Core/MouseButtonCodes.h"
+#include "Tron/Core/MouseCodes.h"
 #include "Tron/Renderer/OrthographicCameraController.h"
 
 #include "Tron/ImGui/ImGuiLayer.h"

@@ -1,12 +1,13 @@
 #include "tnpch.h"
 #include "Platform/Windows/WindowsWindow.h"
 
+#include "Tron/Core/Input.h"
+
+#include "Tron/Events/ApplicationEvent.h"
 #include "Tron/Events/MouseEvent.h"
 #include "Tron/Events/KeyEvent.h"
-#include "Tron/Events/ApplicationEvent.h"
 
-#include "Platform/OpenGL/OpenGLContext.h"
-
+#include "Tron/Renderer/Renderer.h"
 
 namespace Tron {
 
@@ -16,35 +17,49 @@ namespace Tron {
 		TN_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Scope<Window> Window::Create(const WindowProps& props) {
-		return CreateScope<WindowsWindow>(props);
-	}
-
 	WindowsWindow::WindowsWindow(const WindowProps& props) {
-		Init(props);
+        Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow() = default;
 
 	void WindowsWindow::Init(const WindowProps& props) {
-		m_Data.Title = props.Title;
+        TN_PROFILE_FUNCTION();
+
+        m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
 		TN_CORE_INFO("Creating Window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
 		if (s_GLFWInitialized == 0) {
-			int success = glfwInit();
+            TN_PROFILE_SCOPE("glfwInit");
+
+            int success = glfwInit();
 			TN_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-        ++s_GLFWInitialized;
+        {
+            TN_PROFILE_SCOPE("glfwCreateWindow");
 
-        m_Context = GraphicsContext::Create(m_Window);
-		m_Context->Init();
+            #if defined(TN_DEBUG)
+                if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
+                    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+            #endif
+
+            m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+            ++s_GLFWInitialized;
+        }
+
+        {
+            TN_PROFILE_SCOPE("GraphicsContext -> Create");
+
+            m_Context = GraphicsContext::Create(m_Window);
+            m_Context->Init();
+        }
+
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
@@ -70,17 +85,17 @@ namespace Tron {
 
 			switch (action) {
 				case GLFW_PRESS: {
-					KeyPressedEvent event(key, 0);
+					KeyPressedEvent event(static_cast<KeyCode>(key), 0);
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE: {
-					KeyReleasedEvent event(key);
+					KeyReleasedEvent event(static_cast<KeyCode>(key));
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_REPEAT: {
-					KeyPressedEvent event(key, 1);
+					KeyPressedEvent event(static_cast<KeyCode>(key), 1);
 					data.EventCallback(event);
 					break;
 				}
@@ -90,7 +105,7 @@ namespace Tron {
 		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-			KeyTypedEvent event(keycode);
+			KeyTypedEvent event(static_cast<KeyCode>(keycode));
 			data.EventCallback(event);
 		});
 
@@ -99,12 +114,12 @@ namespace Tron {
 
 			switch (action) {
 				case GLFW_PRESS: {
-					MouseButtonPressedEvent event(button);
+					MouseButtonPressedEvent event(static_cast<MouseCode>(button));
 					data.EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE: {
-					MouseButtonReleasedEvent event(button);
+					MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
 					data.EventCallback(event);
 					break;
 				}
@@ -127,7 +142,9 @@ namespace Tron {
 	}
 
 	void WindowsWindow::Shutdown() {
-		glfwDestroyWindow(m_Window);
+        TN_PROFILE_FUNCTION();
+
+        glfwDestroyWindow(m_Window);
 
 		--s_GLFWInitialized;
 		if (s_GLFWInitialized == 0) {
@@ -136,12 +153,16 @@ namespace Tron {
 	}
 
 	void WindowsWindow::OnUpdate() {
-		glfwPollEvents();
+        TN_PROFILE_FUNCTION();
+
+        glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled) {
-		if (enabled)
+        TN_PROFILE_FUNCTION();
+
+        if (enabled)
 			glfwSwapInterval(1);
 		else
 			glfwSwapInterval(0);

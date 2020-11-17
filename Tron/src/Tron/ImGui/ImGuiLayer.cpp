@@ -18,9 +18,10 @@ namespace Tron {
 
 	ImGuiLayer::~ImGuiLayer() = default;
 
-	void ImGuiLayer::OnAttach()
-	{
-		// Setup Dear ImGui Context
+	void ImGuiLayer::OnAttach()	{
+        TN_PROFILE_FUNCTION();
+
+        // Setup Dear ImGui Context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -37,7 +38,7 @@ namespace Tron {
 		}
 
 		Application& app = Application::Get();
-		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
+		auto* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
 
 		// Setup Platform/Renderer bindings
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -46,7 +47,9 @@ namespace Tron {
 
 	void ImGuiLayer::OnDetach()
 	{
-		ImGui_ImplOpenGL3_Shutdown();
+        TN_PROFILE_FUNCTION();
+
+        ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
@@ -57,14 +60,18 @@ namespace Tron {
 
 	void ImGuiLayer::Begin()
 	{
-		ImGui_ImplOpenGL3_NewFrame();
+        TN_PROFILE_FUNCTION();
+
+        ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 
 	void ImGuiLayer::End()
 	{
-		ImGuiIO& io = ImGui::GetIO();
+        TN_PROFILE_FUNCTION();
+
+        ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 

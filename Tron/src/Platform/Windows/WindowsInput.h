@@ -8,12 +8,12 @@ namespace Tron {
 	class WindowsInput : public Input 
 	{
 	protected:
-		virtual bool IsKeyPressedImpl(int keycode) override;
+		bool IsKeyPressedImpl(KeyCode keycode) override;
 
-		virtual bool IsMouseButtonPressedImpl(int button) override;
-		virtual std::pair<float, float> GetMousePositionImpl() override;
-		virtual float GetMouseXImpl() override;
-		virtual float GetMouseYImpl() override;
+		bool IsMouseButtonPressedImpl(MouseCode button) override;
+		std::pair<float, float> GetMousePositionImpl() override;
+		float GetMouseXImpl() override;
+		float GetMouseYImpl() override;
 	};
 }
 

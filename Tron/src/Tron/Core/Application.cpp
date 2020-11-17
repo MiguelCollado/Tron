@@ -15,29 +15,42 @@ namespace Tron {
 
 	Application::Application()
 	{
-		TN_CORE_ASSERT(!s_Instance, "Application already exists!");
+        TN_PROFILE_FUNCTION();
+
+        TN_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
-		m_Window = Window::Create();
-		m_Window->SetEventCallback(TN_BIND_EVENT_FN(Application::OnEvent));
+        {
+            TN_PROFILE_SCOPE("Window -> Create");
 
-		Renderer::Init();
+            m_Window = Window::Create();
+            m_Window->SetEventCallback(TN_BIND_EVENT_FN(Application::OnEvent));
+        }
+
+        {
+            TN_PROFILE_SCOPE("glfwCreateWindow");
+            Renderer::Init();
+        }
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 	}
 
 	Application::~Application()	{
-	    Renderer::Shutdown();
+        TN_PROFILE_FUNCTION();
+
+        Renderer::Shutdown();
 	}
 
 	void Application::OnEvent(Event& e) {
-		EventDispatcher dispatcher(e);
+        TN_PROFILE_FUNCTION();
+
+        EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(TN_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(TN_BIND_EVENT_FN(Application::OnWindowResize));
 
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
-			(*--it)->OnEvent(e);
+        for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it) {
+            (*it)->OnEvent(e);
 			if (e.Handled)
 				break;
 		}
@@ -45,33 +58,47 @@ namespace Tron {
 
 	void Application::PushLayer(Layer* layer)
 	{
-		m_LayerStack.PushLayer(layer);
+        TN_PROFILE_FUNCTION();
+
+        m_LayerStack.PushLayer(layer);
 		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
-		m_LayerStack.PushOverlay(overlay);
+        TN_PROFILE_FUNCTION();
+
+        m_LayerStack.PushOverlay(overlay);
 		overlay->OnAttach();
 	}
 
 	void Application::Run() {
-		while (m_Running) {
+        TN_PROFILE_FUNCTION();
+
+        while (m_Running) {
+            TN_PROFILE_SCOPE("Application -> Run Loop");
 
 			auto time = (float) glfwGetTime(); // Platform::GetTime()
 			Timestep ts = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
 			if (!m_Minimized)  {
-                for (Layer* layer : m_LayerStack)
-                    layer->OnUpdate(ts);
+                {
+                    TN_PROFILE_SCOPE("LayerStack -> OnUpdate");
+
+                    for (Layer* layer : m_LayerStack)
+                        layer->OnUpdate(ts);
+                }
+
+                m_ImGuiLayer->Begin();
+                {
+                    TN_PROFILE_SCOPE("LayerStack -> OnImGuiRender");
+
+                    for (Layer* layer : m_LayerStack)
+                        layer->OnImGuiRender();
+                }
+                m_ImGuiLayer->End();
 			}
-
-            m_ImGuiLayer->Begin();
-            for (Layer* layer : m_LayerStack)
-                layer->OnImGuiRender();
-            m_ImGuiLayer->End();
-
 			m_Window->OnUpdate();
 		}
 	}
@@ -82,6 +109,8 @@ namespace Tron {
 	}
 
     bool Application::OnWindowResize(WindowResizeEvent &e) {
+        TN_PROFILE_FUNCTION();
+
         if (e.GetWidth() == 0 || e.GetHeight() == 0) {
             m_Minimized = true;
             return false;

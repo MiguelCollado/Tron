@@ -9,9 +9,17 @@ int main(int argc, char** argv) {
 
 	Tron::Log::Init();
 
+	TN_PROFILE_BEGIN_SESSION("Startup", "TronProfile-Startup.json");
 	auto app = Tron::CreateApplication();
-	app->Run();
-	delete app;
+	TN_PROFILE_END_SESSION();
+
+    TN_PROFILE_BEGIN_SESSION("Runtime", "TronProfile-Runtime.json");
+    app->Run();
+    TN_PROFILE_END_SESSION();
+
+    TN_PROFILE_BEGIN_SESSION("Shutdown", "TronProfile-Shutdown.json");
+    delete app;
+    TN_PROFILE_END_SESSION();
 }
 
 #endif

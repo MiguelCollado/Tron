@@ -1,12 +1,6 @@
-//
-// Created by mcoll on 10/11/2020.
-//
-
-#ifndef TRONENGINE_RENDERER2D_H
-#define TRONENGINE_RENDERER2D_H
+#pragma once
 
 #include "Tron/Renderer/OrthographicCamera.h"
-
 #include "Tron/Renderer/Texture.h"
 
 namespace Tron {
@@ -26,5 +20,3 @@ namespace Tron {
         static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture);
     };
 }
-
-#endif //TRONENGINE_RENDERER2D_H

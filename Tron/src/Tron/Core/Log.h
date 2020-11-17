@@ -26,11 +26,11 @@ namespace Tron {
 #define TN_CORE_INFO(...)   ::Tron::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define TN_CORE_WARN(...)   ::Tron::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define TN_CORE_ERROR(...)  ::Tron::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define TN_CORE_FATAL(...)  ::Tron::Log::GetCoreLogger()->fatal(__VA_ARGS__)
+#define TN_CORE_CRITICAL(...)  ::Tron::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // Client log macros
 #define TN_TRACE(...)  ::Tron::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define TN_INFO(...)   ::Tron::Log::GetClientLogger()->info(__VA_ARGS__)
 #define TN_WARN(...)   ::Tron::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define TN_ERROR(...)  ::Tron::Log::GetClientLogger()->error(__VA_ARGS__)
-#define TN_FATAL(...)  ::Tron::Log::GetClientLogger()->fatal(__VA_ARGS__)
+#define TN_CRITICAL(...)  ::Tron::Log::GetClientLogger()->critical(__VA_ARGS__)

@@ -10,6 +10,8 @@
 
 #include "Tron/ImGui/ImGuiLayer.h"
 
+int main(int argc, char** argv);
+
 namespace Tron {
 	class Application
 	{
@@ -17,8 +19,6 @@ namespace Tron {
 		Application();
 		virtual ~Application();
 
-		void Run();
-		
 		void OnEvent(Event& e);
 
 		void PushLayer(Layer* layer);
@@ -27,6 +27,7 @@ namespace Tron {
 		inline static Application& Get() { return *s_Instance; }
 		inline Window& GetWindow() { return *m_Window; }
 	private:
+        void Run();
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 	private:
@@ -40,6 +41,7 @@ namespace Tron {
 		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
+        friend int ::main(int argc, char** argv);
 	};
 
 	// Definido en el cliente

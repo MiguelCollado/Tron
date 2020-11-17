@@ -28,27 +28,37 @@ namespace Tron {
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
-		glCreateVertexArrays(1, &m_RendererID);
+        TN_PROFILE_FUNCTION();
+
+        glCreateVertexArrays(1, &m_RendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
-		glDeleteVertexArrays(1, &m_RendererID);
+        TN_PROFILE_FUNCTION();
+
+        glDeleteVertexArrays(1, &m_RendererID);
 	}
 
 	void OpenGLVertexArray::Bind() const
 	{
-		glBindVertexArray(m_RendererID);
+        TN_PROFILE_FUNCTION();
+
+        glBindVertexArray(m_RendererID);
 	}
 	
 	void OpenGLVertexArray::Unbind() const
 	{
-		glBindVertexArray(0);
+        TN_PROFILE_FUNCTION();
+
+        glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
-		TN_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout!");
+        TN_PROFILE_FUNCTION();
+
+        TN_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout!");
 
 		glBindVertexArray(m_RendererID);
 		vertexBuffer->Bind();
@@ -72,7 +82,9 @@ namespace Tron {
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
-		glBindVertexArray(m_RendererID);
+        TN_PROFILE_FUNCTION();
+
+        glBindVertexArray(m_RendererID);
 		indexBuffer->Bind();
 
 		m_IndexBuffer = indexBuffer;

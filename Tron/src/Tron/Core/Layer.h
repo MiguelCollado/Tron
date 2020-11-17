@@ -9,7 +9,7 @@ namespace Tron {
 	class Layer
 	{
 	public:
-		Layer(const std::string& name = "Layer");
+		explicit Layer(const std::string& name = "Layer");
 		virtual ~Layer();
 
 		virtual void OnAttach() {}
@@ -18,7 +18,7 @@ namespace Tron {
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 
-		inline const std::string& GetName() const { return m_DebugName; }
+		[[nodiscard]] inline const std::string& GetName() const { return m_DebugName; }
 	protected:
 		std::string m_DebugName;
 	};

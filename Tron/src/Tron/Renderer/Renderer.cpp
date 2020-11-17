@@ -1,4 +1,5 @@
 #include "tnpch.h"
+
 #include "Tron/Renderer/Renderer.h"
 #include "Tron/Renderer/Renderer2D.h"
 
@@ -8,7 +9,9 @@ namespace Tron {
 
 	void Renderer::Init()
 	{
-		RenderCommand::Init();
+        TN_PROFILE_FUNCTION();
+
+        RenderCommand::Init();
 		Renderer2D::Init();
 	}
 

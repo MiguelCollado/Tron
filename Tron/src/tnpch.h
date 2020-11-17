@@ -15,6 +15,8 @@
 
 #include "Tron/Core/Log.h"
 
+#include "Tron/Debug/Instrumentor.h"
+
 #ifdef TN_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

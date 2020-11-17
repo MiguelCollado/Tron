@@ -11,16 +11,16 @@ namespace Tron {
 
 		void SetProjection(float left, float right, float bottom, float top);
 		
-		const glm::vec3& GetPosition() const;
+		[[nodiscard]] const glm::vec3& GetPosition() const;
 		void SetPosition(const glm::vec3& position);
 
 		float GetRotation() const;
 		void SetRotation(float rotation);
 
 
-		const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
-		const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
-		const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
+		[[nodiscard]] const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
+		[[nodiscard]] const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
+		[[nodiscard]] const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
 	private:
 		void RecalculateViewMatrix();
 	private:

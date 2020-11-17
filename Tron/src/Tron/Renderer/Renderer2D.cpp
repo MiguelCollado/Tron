@@ -1,6 +1,3 @@
-//
-// Created by mcoll on 10/11/2020.
-//
 #include "tnpch.h"
 #include "Tron/Renderer/Renderer2D.h"
 
@@ -21,6 +18,7 @@ namespace Tron {
     static Renderer2DStorage* s_Data;
 
     void Renderer2D::Init() {
+        TN_PROFILE_FUNCTION();
 
         s_Data = new Renderer2DStorage();
         s_Data->QuadVertexArray = VertexArray::Create();
@@ -55,15 +53,20 @@ namespace Tron {
     }
 
     void Renderer2D::Shutdown() {
+        TN_PROFILE_FUNCTION();
+
         delete s_Data;
     }
 
     void Renderer2D::BeginScene(const OrthographicCamera &camera) {
+        TN_PROFILE_FUNCTION();
+
         s_Data->TextureShader->Bind();
         s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
     }
 
     void Renderer2D::EndScene() {
+        TN_PROFILE_FUNCTION();
 
     }
 
@@ -72,6 +75,8 @@ namespace Tron {
     }
 
     void Renderer2D::DrawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color) {
+        TN_PROFILE_FUNCTION();
+
         s_Data->TextureShader->SetFloat4("u_Color", color);
         s_Data->WhiteTexture->Bind();
 
@@ -87,6 +92,8 @@ namespace Tron {
     }
 
     void Renderer2D::DrawQuad(const glm::vec3 &position, const glm::vec2 &size, const Ref<Texture2D> &texture) {
+        TN_PROFILE_FUNCTION();
+
         // Tint -> By default using WHITE so only show the texture;
         s_Data->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
         texture->Bind();

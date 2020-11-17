@@ -3,8 +3,6 @@ project(Tron)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_compile_definitions(TN_DEBUG)
-
 include_directories(vendor/spdlog/include)
 include_directories(vendor/Glad/include)
 include_directories(vendor/GLFW/include)
@@ -41,7 +39,6 @@ set(SOURCES
         src/Tron/Core/LayerStack.h
         src/Tron/Core/Log.cpp
         src/Tron/Core/Log.h
-        src/Tron/Core/MouseButtonCodes.h
         src/Tron/Core/Timestep.h
         src/Tron/Core/Window.h
         src/Tron/Events/ApplicationEvent.h
@@ -88,7 +85,12 @@ set(SOURCES
         src/tnpch.cpp
         src/tnpch.h
         src/Tron/Renderer/OrthographicCameraController.cpp
-        src/Tron/Renderer/OrthographicCameraController.h src/Tron/Renderer/Renderer2D.cpp src/Tron/Renderer/Renderer2D.h src/Tron/Renderer/GraphicsContext.cpp)
+        src/Tron/Renderer/OrthographicCameraController.h
+        src/Tron/Renderer/Renderer2D.cpp
+        src/Tron/Renderer/Renderer2D.h
+        src/Tron/Renderer/GraphicsContext.cpp
+        src/Tron/Debug/Instrumentor.h
+        src/Tron/Core/MouseCodes.h src/Tron/Core/Input.cpp src/Tron/Core/Window.cpp)
 
 include_directories(src)
 
