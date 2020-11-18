@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tron/Core/Core.h"
+#include "Tron/Core/Base.h"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>

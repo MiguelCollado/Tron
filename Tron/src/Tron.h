@@ -2,7 +2,7 @@
 
 // Tron Header -> Uso exclusivo para aplicaciones Tron
 
-#include "Tron/Core/Core.h"
+#include "Tron/Core/Base.h"
 
 #include "Tron/Core/Application.h"
 #include "Tron/Core/Layer.h"

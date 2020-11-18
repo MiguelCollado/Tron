@@ -44,12 +44,22 @@
 #endif // End of platform detection
 
 #ifdef TN_DEBUG
-    #define TN_ENABLE_ASSERTS
+#if defined(TN_PLATFORM_WINDOWS)
+		#define TN_DEBUGBREAK() __debugbreak()
+	#elif defined(TN_PLATFORM_LINUX)
+		#include <signal.h>
+		#define TN_DEBUGBREAK() raise(SIGTRAP)
+	#else
+		#error "Platform doesn't support debugbreak yet!"
+	#endif
+	#define TN_ENABLE_ASSERTS
+#else
+    #define TN_DEBUGBREAK()
 #endif
 
 #ifdef TN_ENABLE_ASSERTS
-	#define TN_ASSERT(x, ...) { if(!(x)) { TN_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-	#define TN_CORE_ASSERT(x, ...) { if(!(x)) { TN_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+    #define TN_ASSERT(x, ...) { if(!(x)) { TN_ERROR("Assertion Failed: {0}", __VA_ARGS__); TN_DEBUGBREAK(); } }
+    #define TN_CORE_ASSERT(x, ...) { if(!(x)) { TN_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); TN_DEBUGBREAK(); } }
 #else
 	#define TN_ASSERT(x, ...)
 	#define TN_CORE_ASSERT(x, ...)

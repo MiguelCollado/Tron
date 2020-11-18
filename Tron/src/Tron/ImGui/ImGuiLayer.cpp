@@ -87,4 +87,10 @@ namespace Tron {
 		}
 	}
 
+    void ImGuiLayer::OnEvent(Event &e) {
+        ImGuiIO& io = ImGui::GetIO();
+        e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+        e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+    }
+
 }

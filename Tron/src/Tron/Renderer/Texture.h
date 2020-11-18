@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Tron/Core/Core.h"
+#include "Tron/Core/Base.h"
 
 namespace Tron {
 

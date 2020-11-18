@@ -1,7 +1,7 @@
 #pragma once
 
 #include "tnpch.h"
-#include "Tron/Core/Core.h"
+#include "Tron/Core/Base.h"
 
 namespace Tron {
 

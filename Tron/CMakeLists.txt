@@ -29,7 +29,7 @@ set(GLAD_SRC
 set(SOURCES
         src/Tron/Core/Application.cpp
         src/Tron/Core/Application.h
-        src/Tron/Core/Core.h
+        src/Tron/Core/Base.h
         src/Tron/Core/EntryPoint.h
         src/Tron/Core/Input.h
         src/Tron/Core/KeyCodes.h
@@ -95,5 +95,4 @@ set(SOURCES
 include_directories(src)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${IMGUI_SRC} ${GLAD_SRC} ${STBIMG_SRC})
-
 target_link_libraries(${PROJECT_NAME} glfw)

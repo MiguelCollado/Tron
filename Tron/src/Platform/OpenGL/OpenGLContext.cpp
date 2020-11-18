@@ -4,7 +4,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
 namespace Tron {
 
 	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)

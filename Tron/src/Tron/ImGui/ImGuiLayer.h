@@ -16,6 +16,7 @@ namespace Tron {
 
 		void OnAttach() override;
 		void OnDetach() override;
+        void OnEvent(Event& e) override;
 		void OnImGuiRender() override;
 
 		void Begin();

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tron/Core/Core.h"
+#include "Tron/Core/Base.h"
 
 #include "Tron/Core/Window.h"
 #include "Tron/Core/LayerStack.h"
