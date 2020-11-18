@@ -9,8 +9,8 @@ namespace Tron {
         WindowResizeEvent(unsigned int width, unsigned int height)
             : m_Width(width), m_Height(height) {}
 
-        [[nodiscard]] inline unsigned int GetWidth() const { return m_Width; }
-        [[nodiscard]] inline unsigned int GetHeight() const { return m_Height; }
+        [[nodiscard]] unsigned int GetWidth() const { return m_Width; }
+        [[nodiscard]] unsigned int GetHeight() const { return m_Height; }
 
         [[nodiscard]] std::string ToString() const override {
             std::stringstream ss;

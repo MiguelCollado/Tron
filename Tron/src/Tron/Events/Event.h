@@ -41,7 +41,7 @@ namespace Tron {
 		[[nodiscard]] virtual int GetCategoryFlags() const = 0;
 		[[nodiscard]] virtual std::string ToString() const { return GetName(); }
 
-		[[nodiscard]] inline bool IsInCategory(EventCategory category) const {
+		[[nodiscard]] bool IsInCategory(EventCategory category) const {
 			return GetCategoryFlags() & category;
 		}
 

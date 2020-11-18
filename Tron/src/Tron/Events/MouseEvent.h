@@ -11,10 +11,10 @@ namespace Tron {
 		MouseMovedEvent(float x, float y)
 			: m_MouseX(x), m_MouseY(y) {}
 
-		[[nodiscard]] inline float GetX() const { return m_MouseX; }
-		[[nodiscard]] inline float GetY() const { return m_MouseY; }
+		[[nodiscard]] float GetX() const { return m_MouseX; }
+		[[nodiscard]] float GetY() const { return m_MouseY; }
 
-		std::string ToString() const override {
+		[[nodiscard]] std::string ToString() const override {
 			std::stringstream ss;
 			ss << "MouseMovedEvent: " << m_MouseX << ", " << m_MouseY;
 			return ss.str();
@@ -31,10 +31,10 @@ namespace Tron {
 		MouseScrolledEvent(float xOffset, float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset) {}
 
-		[[nodiscard]] inline float GetXOffset() const { return m_XOffset; }
-		[[nodiscard]] inline float GetYOffset() const { return m_YOffset; }
+		[[nodiscard]] float GetXOffset() const { return m_XOffset; }
+		[[nodiscard]] float GetYOffset() const { return m_YOffset; }
 
-		std::string ToString() const override {
+		[[nodiscard]] std::string ToString() const override {
 			std::stringstream ss;
 			ss << "MouseScrolledEvent: " << m_XOffset << ", " << m_YOffset;
 			return ss.str();
@@ -48,7 +48,7 @@ namespace Tron {
 
 	class MouseButtonEvent : public Event {
 	public:
-		inline MouseCode GetMouseButton() const { return m_Button; }
+		[[nodiscard]] MouseCode GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
