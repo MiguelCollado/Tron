@@ -13,7 +13,7 @@ include_directories(../Tron/vendor/glm)
 include_directories(../Tron/src)
 
 set(SOURCES
-        src/SandboxApp.cpp src/Sandbox2D.cpp src/Sandbox2D.h src/ExampleLayer.cpp src/ExampleLayer.h src/ExampleLayer.cpp src/ExampleLayer.h src/ExampleLayer.cpp src/ExampleLayer.h)
+        src/SandboxApp.cpp src/Sandbox2D.cpp src/Sandbox2D.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
