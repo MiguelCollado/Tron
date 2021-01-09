@@ -1,4 +1,4 @@
-# Tron [![License](https://img.shields.io/github/license/MiguelCollado/Tron.svg)](https:/github.com/MiguelCollado/Tron/blob/master/LICENSE)
+# Tron [![License](https://img.shields.io/github/license/MiguelCollado/Tron.svg)](https://github.com/MiguelCollado/Tron/blob/master/LICENSE)
 Tron is a interactive application and rendering engine for Windows. On the future, more platforms will be supported (Linux, macOS...). The objective of this repository is to mantain an open codebase for developing graphic engines.
 
 ## Getting Started
