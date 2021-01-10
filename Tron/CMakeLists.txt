@@ -69,6 +69,8 @@ set(SOURCES
         src/Platform/OpenGL/OpenGLBuffer.h
         src/Platform/OpenGL/OpenGLContext.cpp
         src/Platform/OpenGL/OpenGLContext.h
+        src/Platform/OpenGL/OpenGLFramebuffer.cpp
+        src/Platform/OpenGL/OpenGLFramebuffer.h
         src/Platform/OpenGL/OpenGLRendererAPI.cpp
         src/Platform/OpenGL/OpenGLRendererAPI.h
         src/Platform/OpenGL/OpenGLShader.cpp
@@ -90,7 +92,11 @@ set(SOURCES
         src/Tron/Renderer/Renderer2D.h
         src/Tron/Renderer/GraphicsContext.cpp
         src/Tron/Debug/Instrumentor.h
-        src/Tron/Core/MouseCodes.h src/Tron/Core/Input.cpp src/Tron/Core/Window.cpp)
+        src/Tron/Core/MouseCodes.h
+        src/Tron/Core/Input.cpp
+        src/Tron/Core/Window.cpp
+        src/Tron/Renderer/Framebuffer.cpp
+        src/Tron/Renderer/Framebuffer.h)
 
 include_directories(src)
 

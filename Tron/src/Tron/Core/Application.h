@@ -16,7 +16,7 @@ namespace Tron {
 	class Application
 	{
 	public:
-		Application();
+		Application(const std::string& name = "Tron App");
 		virtual ~Application();
 
 		void OnEvent(Event& e);
@@ -25,6 +25,7 @@ namespace Tron {
 		void PushOverlay(Layer* overlay);
 
 		Window& GetWindow() { return *m_Window; }
+		void Close();
 		static Application& Get() { return *s_Instance; }
 	private:
         void Run();

@@ -36,6 +36,8 @@ namespace Tron {
 	class Event {
 		friend class EventDispatcher;
 	public:
+	    virtual ~Event() = default;
+
 		[[nodiscard]] virtual EventType GetEventType() const = 0;
 		[[nodiscard]] virtual const char* GetName() const = 0;
 		[[nodiscard]] virtual int GetCategoryFlags() const = 0;

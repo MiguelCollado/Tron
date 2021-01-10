@@ -8,7 +8,9 @@
 namespace Tron {
 
     OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
-        : m_AspectRatio(aspectRatio), m_ZoomLevel(1.0f), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Rotation(rotation) {
+            : m_AspectRatio(aspectRatio), m_ZoomLevel(1.0f),
+              m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel),
+              m_Rotation(rotation) {
     }
 
     void OrthographicCameraController::OnUpdate(Timestep ts) {
@@ -30,7 +32,7 @@ namespace Tron {
             m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
         }
 
-        if (m_Rotation){
+        if (m_Rotation) {
             if (Input::IsKeyPressed(TN_KEY_Q)) {
                 m_CameraRotation += m_CameraRotationSpeed * ts;
             } else if (Input::IsKeyPressed(TN_KEY_E)) {
@@ -58,6 +60,11 @@ namespace Tron {
         dispatcher.Dispatch<WindowResizeEvent>(TN_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
     }
 
+    void OrthographicCameraController::OnResize(float width, float height) {
+        m_AspectRatio = width / height;
+        m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+    }
+
     bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent &e) {
         TN_PROFILE_FUNCTION();
 
@@ -70,8 +77,7 @@ namespace Tron {
     bool OrthographicCameraController::OnWindowResized(WindowResizeEvent &e) {
         TN_PROFILE_FUNCTION();
 
-        m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-        m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+        OnResize((float) e.GetWidth(), (float) e.GetHeight());
         return false;
     }
 }

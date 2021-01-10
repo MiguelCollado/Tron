@@ -15,7 +15,7 @@ Sandbox2D::Sandbox2D()
 void Sandbox2D::OnAttach() {
     TN_PROFILE_FUNCTION();
 
-    m_CheckboardTexture = Tron::Texture2D::Create("assets/textures/Checkboard.png");
+//    m_CheckboardTexture = Tron::Texture2D::Create("assets/textures/Check.png");
 }
 
 void Sandbox2D::OnDetach() {
@@ -47,7 +47,7 @@ void Sandbox2D::OnUpdate(Tron::Timestep ts) {
         Tron::Renderer2D::DrawRotatedQuad({0.0f, 0.0f}, {0.8f, 0.8f}, rotation, {0.2f, 0.8f, 0.3f, 1.0f});
         Tron::Renderer2D::DrawQuad({-1.0f, 0.6f}, {0.8f, 0.8f}, {0.8f, 0.2f, 0.3f, 1.0f});
         Tron::Renderer2D::DrawQuad({ 1.0f, 0.0f}, {0.5f, 0.75}, m_SquareColor);
-        Tron::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.2f}, {20.0f, 20.0f}, m_CheckboardTexture, 5.f);
+//        Tron::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.2f}, {20.0f, 20.0f}, m_CheckboardTexture, 5.f);
         Tron::Renderer2D::EndScene();
 
         Tron::Renderer2D::BeginScene(m_CameraController.GetCamera());
