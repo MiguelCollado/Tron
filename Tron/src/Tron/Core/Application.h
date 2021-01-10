@@ -26,6 +26,9 @@ namespace Tron {
 
 		Window& GetWindow() { return *m_Window; }
 		void Close();
+
+		ImGuiLayer* GetImGuiLayer() {return m_ImGuiLayer;}
+
 		static Application& Get() { return *s_Instance; }
 	private:
         void Run();
