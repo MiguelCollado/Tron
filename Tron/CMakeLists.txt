@@ -80,7 +80,6 @@ set(SOURCES
         src/Platform/OpenGL/OpenGLVertexArray.cpp
         src/Platform/OpenGL/OpenGLVertexArray.h
         src/Platform/Windows/WindowsInput.cpp
-        src/Platform/Windows/WindowsInput.h
         src/Platform/Windows/WindowsWindow.cpp
         src/Platform/Windows/WindowsWindow.h
         src/Tron.h
@@ -93,7 +92,6 @@ set(SOURCES
         src/Tron/Renderer/GraphicsContext.cpp
         src/Tron/Debug/Instrumentor.h
         src/Tron/Core/MouseCodes.h
-        src/Tron/Core/Input.cpp
         src/Tron/Core/Window.cpp
         src/Tron/Renderer/Framebuffer.cpp
         src/Tron/Renderer/Framebuffer.h)
