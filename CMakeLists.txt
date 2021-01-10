@@ -5,4 +5,4 @@ add_compile_definitions(TN_DEBUG)
 add_compile_definitions(TN_PROFILE)
 
 add_subdirectory(Tron)
-add_subdirectory(Sandbox)
+add_subdirectory(Tron-Editor)

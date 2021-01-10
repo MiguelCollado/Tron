@@ -7,7 +7,7 @@ workspace "Tron"
         "Dist"
     }
 
-startproject "Sandbox"
+startproject "Tron-Editor"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -73,12 +73,6 @@ project "Tron"
     filter "system:windows"
         systemversion "latest"
 
-        defines {
-            "TN_PLATFORM_WINDOWS",
-            "TN_BUILD_DLL",
-            "GLFW_INCLUDE_NONE"
-        }
-
     filter "configurations:Debug"
         defines "TN_DEBUG"
         runtime "Debug"
@@ -94,8 +88,8 @@ project "Tron"
         runtime "Release"
         optimize "on"
 
-project "Sandbox"
-    location "Sandbox"
+project "Tron-Editor"
+    location "Tron-Editor"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
@@ -122,10 +116,6 @@ project "Sandbox"
 
     filter "system:windows"
         systemversion "latest"
-
-        defines {
-            "TN_PLATFORM_WINDOWS"
-        }
 
     filter "configurations:Debug"
         defines "TN_DEBUG"

@@ -13,7 +13,7 @@ namespace Tron {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(const std::string& name)
 	{
         TN_PROFILE_FUNCTION();
 
@@ -23,7 +23,7 @@ namespace Tron {
         {
             TN_PROFILE_SCOPE("Window -> Create");
 
-            m_Window = Window::Create();
+            m_Window = Window::Create(WindowProps(name));
             m_Window->SetEventCallback(TN_BIND_EVENT_FN(Application::OnEvent));
         }
 
@@ -71,6 +71,10 @@ namespace Tron {
 
         m_LayerStack.PushOverlay(overlay);
 		overlay->OnAttach();
+	}
+
+	void Application::Close() {
+	    m_Running = false;
 	}
 
 	void Application::Run() {
