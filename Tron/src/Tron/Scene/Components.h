@@ -2,6 +2,8 @@
 
 #include <glm/glm.hpp>
 
+#include "SceneCamera.h"
+
 namespace Tron {
 
     struct TagComponent {
@@ -32,6 +34,15 @@ namespace Tron {
         SpriteRendererComponent(const SpriteRendererComponent&) = default;
         SpriteRendererComponent(const glm::vec4& color)
             : Color(color) {}
+    };
+    
+    struct CameraComponent {
+        Tron::SceneCamera Camera;
+        bool Primary = true;            // TODO: Moverlo a Scene?
+        bool FixedAspectRatio = false;
+
+        CameraComponent() = default;
+        CameraComponent(const CameraComponent&) = default;
     };
 
 
