@@ -4,6 +4,8 @@
 #include "imgui/imgui.h"
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Tron/Scripts/CameraController.h"
+
 namespace Tron {
 
 
@@ -35,6 +37,8 @@ namespace Tron {
 		m_SecondCamera = m_ActiveScene->CreateEntity("Second camera entity");
 		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
 		cc.Primary = false;
+
+		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 	}
 
 	void EditorLayer::OnDetach() {
@@ -44,7 +48,6 @@ namespace Tron {
 	}
 
 	void EditorLayer::OnUpdate(Timestep ts) {
-
 		TN_PROFILE_FUNCTION();
 
 		// Resize

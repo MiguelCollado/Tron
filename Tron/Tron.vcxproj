@@ -184,6 +184,8 @@
     <ClInclude Include="src\Tron\Scene\Scene.h" />
     <ClInclude Include="src\tnpch.h" />
     <ClInclude Include="src\Tron\Scene\SceneCamera.h" />
+    <ClInclude Include="src\Tron\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\Tron\Scripts\CameraController.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />

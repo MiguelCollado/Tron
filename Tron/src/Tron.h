@@ -20,6 +20,7 @@
 #include "Tron/Scene/Scene.h"
 #include "Tron/Scene/Components.h"
 #include "Tron/Scene/Entity.h"
+#include "Tron/Scene/ScriptableEntity.h"
 
 // ------ Renderer ---------
 #include "Tron/Renderer/Renderer.h"

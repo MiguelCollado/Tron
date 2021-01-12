@@ -1415,6 +1415,8 @@
     </ClInclude>
     <ClInclude Include="src\Tron\Renderer\Camera.h" />
     <ClInclude Include="src\Tron\Scene\SceneCamera.h" />
+    <ClInclude Include="src\Tron\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\Tron\Scripts\CameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
