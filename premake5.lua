@@ -18,6 +18,7 @@ IncludeDir["Glad"] = "Tron/vendor/Glad/include"
 IncludeDir["ImGui"] = "Tron/vendor/imgui"
 IncludeDir["glm"] = "Tron/vendor/glm"
 IncludeDir["stb_image"] = "Tron/vendor/stb_image"
+IncludeDir["entt"] = "Tron/vendor/entt/include"
 
 group "Dependencias"
     include "Tron/vendor/GLFW"
@@ -56,7 +57,8 @@ project "Tron"
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.glm}",
-        "%{IncludeDir.stb_image}"
+        "%{IncludeDir.stb_image}",
+        "%{IncludeDir.entt}"
     }
 
     defines {
@@ -107,7 +109,53 @@ project "Tron-Editor"
         "Tron/src",
         "Tron/vendor",
         "Tron/vendor/spdlog/include",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.entt}"
+    }
+
+    links {
+        "Tron"
+    }
+
+    filter "system:windows"
+        systemversion "latest"
+
+    filter "configurations:Debug"
+        defines "TN_DEBUG"
+        runtime "Debug"
+        symbols "on"
+
+    filter "configurations:Release"
+        defines "TN_RELEASE"
+        runtime "Release"
+        optimize "on"
+
+    filter "configurations:Dist"
+        defines "TN_DIST"
+        runtime "Release"
+        optimize "on"
+
+project "Sandbox"
+    location "Sandbox"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
+
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp"
+    }
+
+    includedirs {
+        "Tron/src",
+        "Tron/vendor",
+        "Tron/vendor/spdlog/include",
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.entt}"
     }
 
     links {
