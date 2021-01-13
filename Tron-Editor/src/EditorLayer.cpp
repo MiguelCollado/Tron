@@ -38,7 +38,7 @@ namespace Tron {
 		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
 		cc.Primary = false;
 
-		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 	}
 
 	void EditorLayer::OnDetach() {
