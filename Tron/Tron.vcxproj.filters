@@ -34,6 +34,9 @@
     <Filter Include="src\Tron\Scene">
       <UniqueIdentifier>{DC426097-C810-549D-B1A4-C4C39D113002}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Tron\Scripts">
+      <UniqueIdentifier>{B62865F1-A221-8443-CB53-69C8B7AB634F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -114,6 +117,9 @@
     <ClInclude Include="src\Tron\Core\MouseCodes.h">
       <Filter>src\Tron\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tron\Core\PlatformDetection.h">
+      <Filter>src\Tron\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tron\Core\Timestep.h">
       <Filter>src\Tron\Core</Filter>
     </ClInclude>
@@ -139,6 +145,9 @@
       <Filter>src\Tron\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\Tron\Renderer\Buffer.h">
+      <Filter>src\Tron\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tron\Renderer\Camera.h">
       <Filter>src\Tron\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Tron\Renderer\Framebuffer.h">
@@ -182,6 +191,15 @@
     </ClInclude>
     <ClInclude Include="src\Tron\Scene\Scene.h">
       <Filter>src\Tron\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tron\Scene\SceneCamera.h">
+      <Filter>src\Tron\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tron\Scene\ScriptableEntity.h">
+      <Filter>src\Tron\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tron\Scripts\CameraController.h">
+      <Filter>src\Tron\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="src\tnpch.h">
       <Filter>src</Filter>
@@ -1413,10 +1431,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tron\Renderer\Camera.h" />
-    <ClInclude Include="src\Tron\Scene\SceneCamera.h" />
-    <ClInclude Include="src\Tron\Scene\ScriptableEntity.h" />
-    <ClInclude Include="src\Tron\Scripts\CameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1509,12 +1523,14 @@
     <ClCompile Include="src\Tron\Scene\Scene.cpp">
       <Filter>src\Tron\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tron\Scene\SceneCamera.cpp">
+      <Filter>src\Tron\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\tnpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tron\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

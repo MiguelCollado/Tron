@@ -16,13 +16,13 @@ namespace Tron {
 		void OnUpdate(Timestep ts) {
 			auto& transform = GetComponent<TransformComponent>().Transform;
 
-			if (Input::IsKeyPressed(KeyCode::A))
+			if (Input::IsKeyPressed(Key::A))
 				transform[3][0] -= m_Speed * ts;
-			if (Input::IsKeyPressed(KeyCode::D))
+			if (Input::IsKeyPressed(Key::D))
 				transform[3][0] += m_Speed * ts;
-			if (Input::IsKeyPressed(KeyCode::W))
+			if (Input::IsKeyPressed(Key::W))
 				transform[3][1] += m_Speed * ts;
-			if (Input::IsKeyPressed(KeyCode::S))
+			if (Input::IsKeyPressed(Key::S))
 				transform[3][1] -= m_Speed * ts;
 		}
 

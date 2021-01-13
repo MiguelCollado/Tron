@@ -1,6 +1,8 @@
 #pragma once
 
-#include "tnpch.h"
+#include <functional>
+
+#include "Tron/Debug/Instrumentor.h"
 #include "Tron/Core/Base.h"
 
 namespace Tron {
