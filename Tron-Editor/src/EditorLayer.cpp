@@ -39,6 +39,10 @@ namespace Tron {
 		cc.Primary = false;
 
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+
+		// Panels
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnDetach() {
@@ -138,6 +142,8 @@ namespace Tron {
 			ImGui::EndMenuBar();
 		}
 
+		m_SceneHierarchyPanel.OnImGuiRender();
+
 		ImGui::Begin("Settings");
 
 		auto stats = Renderer2D::GetStats();
@@ -193,5 +199,4 @@ namespace Tron {
 	void EditorLayer::OnEvent(Event& e) {
 		m_CameraController.OnEvent(e);
 	}
-
 }

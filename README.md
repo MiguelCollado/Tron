@@ -2,8 +2,7 @@
 Tron is a interactive application and rendering engine for Windows. On the future, more platforms will be supported (Linux, macOS...). The objective of this repository is to mantain an open codebase for developing graphic engines.
 
 ## Getting Started
-Visual Studio 2017 or 2019 is the recommended. However, you can use any CMake compatible IDE (CMakeLists are provided 
-as well as a Premake file). 
+Visual Studio 2017 or 2019 is the recommended way to start developing this repository (premake5 files provided for easy configuration). 
 
 Start by cloning the repository with `git clone --recursive https://github.com/MiguelCollado/Tron`.
 

@@ -33,14 +33,16 @@ namespace Tron {
 	{
 		// Update Scripts
 		{
-			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) {
+			m_Registry.view<NativeScriptComponent>().each([=](entt::entity entity, NativeScriptComponent& nsc) {
+
+				// TODO: Move to Scene::OnScenePlay
 				if (!nsc.Instance) {
-					nsc.InstantiateFunction();
-					nsc.Instance->m_Entity = { entity, this };
-					nsc.OnCreateFunction(nsc.Instance);
+					nsc.Instance = nsc.InstantiateScript();
+					nsc.Instance->m_Entity = Entity { entity, this };
+					nsc.Instance->OnCreate();
 				}
 
-				nsc.OnUpdateFunction(nsc.Instance, ts);
+				nsc.Instance->OnUpdate(ts);
 			});
 		}
 
@@ -50,7 +52,7 @@ namespace Tron {
 		{
 			auto group = m_Registry.group<TransformComponent, CameraComponent>();
 			for (auto entity : group) {
-				auto& [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
+				auto [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
 				
 				if (camera.Primary) {
 					mainCamera = &camera.Camera;
@@ -66,7 +68,7 @@ namespace Tron {
 
 			auto view = m_Registry.view<TransformComponent, SpriteRendererComponent>();
 			for (auto entity : view) {
-				auto& [transform, sprite] = view.get<TransformComponent, SpriteRendererComponent>(entity);
+				auto [transform, sprite] = view.get<TransformComponent, SpriteRendererComponent>(entity);
 
 				Renderer2D::DrawQuad(transform, sprite.Color);
 			}
