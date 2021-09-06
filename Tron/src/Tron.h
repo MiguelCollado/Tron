@@ -17,6 +17,11 @@
 
 #include "Tron/ImGui/ImGuiLayer.h"
 
+#include "Tron/Scene/Scene.h"
+#include "Tron/Scene/Components.h"
+#include "Tron/Scene/Entity.h"
+#include "Tron/Scene/ScriptableEntity.h"
+
 // ------ Renderer ---------
 #include "Tron/Renderer/Renderer.h"
 #include "Tron/Renderer/Renderer2D.h"

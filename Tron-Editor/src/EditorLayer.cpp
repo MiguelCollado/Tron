@@ -1,169 +1,202 @@
 #include "tnpch.h"
 #include "EditorLayer.h"
 
-#include <imgui.h>
+#include "imgui/imgui.h"
 #include <glm/gtc/type_ptr.hpp>
+
+#include "Tron/Scripts/CameraController.h"
 
 namespace Tron {
 
 
-    EditorLayer::EditorLayer()
-            : Layer("EditorLayer"), m_CameraController(1280.f / 720.f), m_SquareColor({0.2f, 0.3f, 0.8f, 1.0f}) {
+	EditorLayer::EditorLayer()
+		: Layer("EditorLayer"), m_CameraController(1280.f / 720.f), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f }) {
+	}
 
-    }
+	void EditorLayer::OnAttach() {
+		TN_PROFILE_FUNCTION();
 
-    void EditorLayer::OnAttach() {
-        TN_PROFILE_FUNCTION();
+		m_CheckboardTexture = Texture2D::Create("assets/textures/Checkboard.png");
 
-        m_CheckboardTexture = Tron::Texture2D::Create("assets/textures/Checkboard.png");
+		FramebufferSpecification fbSpec;
+		fbSpec.Width = 1280;
+		fbSpec.Height = 720;
+		m_Framebuffer = Framebuffer::Create(fbSpec);
 
-        Tron::FramebufferSpecification fbSpec;
-        fbSpec.Width = 1280;
-        fbSpec.Height = 720;
-        m_Framebuffer = Tron::Framebuffer::Create(fbSpec);
-    }
+		m_ActiveScene = CreateRef<Scene>();
 
-    void EditorLayer::OnDetach() {
-        TN_PROFILE_FUNCTION();
+		// Entity
+		auto squareEntity = m_ActiveScene->CreateEntity("Square");
+		squareEntity.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
 
-        Layer::OnDetach();
-    }
+		m_SquareEntity = squareEntity;
 
-    void EditorLayer::OnUpdate(Tron::Timestep ts) {
+		m_CameraEntity = m_ActiveScene->CreateEntity("Camera entity");
+		m_CameraEntity.AddComponent<CameraComponent>();
 
-        TN_PROFILE_FUNCTION();
-        // Update
-        m_CameraController.OnUpdate(ts);
+		m_SecondCamera = m_ActiveScene->CreateEntity("Second camera entity");
+		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
+		cc.Primary = false;
 
-        // Render
-        Tron::Renderer2D::ResetStats();
-        {
-            TN_PROFILE_SCOPE("Renderer Prep");
-            m_Framebuffer->Bind();
-            Tron::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
-            Tron::RenderCommand::Clear();
-        }
+		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
-        {
-            static float rotation = 0.0f;
-            rotation += ts * 50.0f;
+		// Panels
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	}
 
-            TN_PROFILE_SCOPE("Renderer Draw");
-            Tron::Renderer2D::BeginScene(m_CameraController.GetCamera());
-            Tron::Renderer2D::DrawRotatedQuad({0.0f, 0.0f}, {0.8f, 0.8f}, rotation, {0.2f, 0.8f, 0.3f, 1.0f});
-            Tron::Renderer2D::DrawQuad({-1.0f, 0.6f}, {0.8f, 0.8f}, {0.8f, 0.2f, 0.3f, 1.0f});
-            Tron::Renderer2D::DrawQuad({1.0f, 0.0f}, {0.5f, 0.75}, m_SquareColor);
-            Tron::Renderer2D::DrawQuad({0.0f, 0.0f, -0.2f}, {20.0f, 20.0f}, m_CheckboardTexture, 5.f);
-            Tron::Renderer2D::EndScene();
+	void EditorLayer::OnDetach() {
+		TN_PROFILE_FUNCTION();
 
-            Tron::Renderer2D::BeginScene(m_CameraController.GetCamera());
-            for (int y = -10; y < 10; y++) {
-                for (int x = -10; x < 10; x++) {
-                    glm::vec4 color = {((float) x + 10.0f) / 20.0f, 0.3f, ((float) y + 10.0f) / 20.0f, 0.7f};
-                    Tron::Renderer2D::DrawQuad({x, y, -0.1f}, {0.9f, 0.9f}, color);
-                }
-            }
-            Tron::Renderer2D::EndScene();
-            m_Framebuffer->Unbind();
-        }
-    }
+		Layer::OnDetach();
+	}
 
-    void EditorLayer::OnImGuiRender() {
-        TN_PROFILE_FUNCTION();
+	void EditorLayer::OnUpdate(Timestep ts) {
+		TN_PROFILE_FUNCTION();
 
-        // Note: Switch this to true to enable dockspace
-        static bool dockspaceOpen = true;
-        static bool opt_fullscreen_persistant = true;
-        bool opt_fullscreen = opt_fullscreen_persistant;
-        static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+		// Resize
+		if (FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+			m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
+			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
+		{
+			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 
-        // We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
-        // because it would be confusing to have two docking targets within each others.
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-        if (opt_fullscreen)
-        {
-            ImGuiViewport* viewport = ImGui::GetMainViewport();
-            ImGui::SetNextWindowPos(viewport->Pos);
-            ImGui::SetNextWindowSize(viewport->Size);
-            ImGui::SetNextWindowViewport(viewport->ID);
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-            window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-            window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-        }
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		}
 
-        // When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
-        if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
-            window_flags |= ImGuiWindowFlags_NoBackground;
+		// Update
+		if (m_ViewportFocused)
+			m_CameraController.OnUpdate(ts);
 
-        // Important: note that we proceed even if Begin() returns false (aka window is collapsed).
-        // This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
-        // all active windows docked into it will lose their parent and become undocked.
-        // We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
-        // any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-        ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
-        ImGui::PopStyleVar();
+		// Render
+		Renderer2D::ResetStats();
 
-        if (opt_fullscreen)
-            ImGui::PopStyleVar(2);
+		m_Framebuffer->Bind();
+		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		RenderCommand::Clear();
 
-        // DockSpace
-        ImGuiIO& io = ImGui::GetIO();
-        if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-        {
-            ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-            ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-        }
+		// Update Scene
+		m_ActiveScene->OnUpdate(ts);
 
-        if (ImGui::BeginMenuBar())
-        {
-            if (ImGui::BeginMenu("File"))
-            {
-                // Disabling fullscreen would allow the window to be moved to the front of other windows,
-                // which we can't undo at the moment without finer window depth/z control.
-                //ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
+		m_Framebuffer->Unbind();
+	}
 
-                if (ImGui::MenuItem("Exit")) Tron::Application::Get().Close();
-                ImGui::EndMenu();
-            }
+	void EditorLayer::OnImGuiRender() {
+		TN_PROFILE_FUNCTION();
 
-            ImGui::EndMenuBar();
-        }
+		// Note: Switch this to true to enable dockspace
+		static bool dockspaceOpen = true;
+		static bool opt_fullscreen_persistant = true;
+		bool opt_fullscreen = opt_fullscreen_persistant;
+		static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
-        ImGui::Begin("Settings");
+		// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
+		// because it would be confusing to have two docking targets within each others.
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+		if (opt_fullscreen) {
+			ImGuiViewport* viewport = ImGui::GetMainViewport();
+			ImGui::SetNextWindowPos(viewport->Pos);
+			ImGui::SetNextWindowSize(viewport->Size);
+			ImGui::SetNextWindowViewport(viewport->ID);
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+			window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+				ImGuiWindowFlags_NoMove;
+			window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+		}
 
-        auto stats = Tron::Renderer2D::GetStats();
-        ImGui::Text("Renderer2D Stats:");
-        ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-        ImGui::Text("Quads: %d", stats.QuadCount);
-        ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-        ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+		// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
+		if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+			window_flags |= ImGuiWindowFlags_NoBackground;
 
-        ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+		// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
+		// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
+		// all active windows docked into it will lose their parent and become undocked.
+		// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
+		// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+		ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
+		ImGui::PopStyleVar();
 
-        ImGui::End();
+		if (opt_fullscreen)
+			ImGui::PopStyleVar(2);
 
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-        ImGui::Begin("Viewport");
-        ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-        if (m_ViewportSize != *((glm::vec2*)&viewportPanelSize))
-        {
-            m_Framebuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
-            m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+		// DockSpace
+		ImGuiIO& io = ImGui::GetIO();
+		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
+			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+		}
 
-            m_CameraController.OnResize(viewportPanelSize.x, viewportPanelSize.y);
-        }
-        uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-        ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-        ImGui::End();
-        ImGui::PopStyleVar();
+		if (ImGui::BeginMenuBar()) {
+			if (ImGui::BeginMenu("File")) {
+				// Disabling fullscreen would allow the window to be moved to the front of other windows,
+				// which we can't undo at the moment without finer window depth/z control.
+				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
-        ImGui::End();
-    }
+				if (ImGui::MenuItem("Exit")) Application::Get().Close();
+				ImGui::EndMenu();
+			}
 
-    void EditorLayer::OnEvent(Tron::Event &e) {
-        m_CameraController.OnEvent(e);
-    }
+			ImGui::EndMenuBar();
+		}
 
+		m_SceneHierarchyPanel.OnImGuiRender();
+
+		ImGui::Begin("Settings");
+
+		auto stats = Renderer2D::GetStats();
+		ImGui::Text("Renderer2D Stats:");
+		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+		ImGui::Text("Quads: %d", stats.QuadCount);
+		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+
+		if (m_SquareEntity) {
+			ImGui::Separator();
+			ImGui::Text("%s", m_SquareEntity.GetComponent<TagComponent>().Tag.c_str());
+
+			auto& squareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
+			ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+			ImGui::Separator();
+		}
+
+		ImGui::DragFloat3("Camera Transform", glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[3]));
+
+		if (ImGui::Checkbox("Camera A", &m_PrimaryCamera)) {
+			m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
+			m_SecondCamera.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
+		}
+
+		{
+			auto& camera = m_SecondCamera.GetComponent<CameraComponent>().Camera;
+			float orthoSize = camera.GetOrthographicSize();
+			if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize))
+				camera.SetOrthographicSize(orthoSize);
+		}
+
+		ImGui::End();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+		ImGui::Begin("Viewport");
+
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+
+		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
+		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		ImGui::End();
+		ImGui::PopStyleVar();
+
+		ImGui::End();
+	}
+
+	void EditorLayer::OnEvent(Event& e) {
+		m_CameraController.OnEvent(e);
+	}
 }

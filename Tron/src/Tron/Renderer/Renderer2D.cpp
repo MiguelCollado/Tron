@@ -96,7 +96,7 @@ namespace Tron {
         s_Data.TextureShader->Bind();
         s_Data.TextureShader->SetIntArray("u_Textures", samplers, Tron::Renderer2DData::MaxTextureSlots);
 
-        // Set all texture slots to 0
+        // Set first texture slot to 0
         s_Data.TextureSlots[0] = s_Data.WhiteTexture;
 
         s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f};
@@ -109,6 +109,21 @@ namespace Tron {
         TN_PROFILE_FUNCTION();
 
         delete[] s_Data.QuadVertexBufferBase;
+    }
+
+    void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
+    {
+        TN_PROFILE_FUNCTION();
+
+        glm::mat4 viewProj = camera.GetProjection() * glm::inverse(transform);
+
+        s_Data.TextureShader->Bind();
+        s_Data.TextureShader->SetMat4("u_ViewProjection", viewProj);
+
+        s_Data.QuadIndexCount = 0;
+        s_Data.QuadVertexBufferPointer = s_Data.QuadVertexBufferBase;
+
+        s_Data.TextureSlotIndex = 1;
     }
 
     void Renderer2D::BeginScene(const OrthographicCamera &camera) {
@@ -162,6 +177,31 @@ namespace Tron {
     void Renderer2D::DrawQuad(const glm::vec3 &position, const glm::vec2 &size, const glm::vec4 &color) {
         TN_PROFILE_FUNCTION();
 
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+            * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+        DrawQuad(transform, color);
+    }
+
+    void Renderer2D::DrawQuad(const glm::vec2 &position, const glm::vec2 &size, const Ref<Texture2D> &texture, float tilingFactor, const glm::vec4& tintColor) {
+        DrawQuad({position.x, position.y, 0.0f}, size, texture, tilingFactor, tintColor);
+    }
+
+    void Renderer2D::DrawQuad(const glm::vec3 &position, const glm::vec2 &size, const Ref<Texture2D> &texture, float tilingFactor, const glm::vec4& tintColor) {
+        TN_PROFILE_FUNCTION();
+
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+            * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+        DrawQuad(transform, texture, tilingFactor, tintColor);
+    }
+
+    void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+    {
+        TN_PROFILE_FUNCTION();
+
         constexpr size_t quadVertexCount = 4;
         const float texIndex = 0.0f; // White Texture
         constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
@@ -170,9 +210,6 @@ namespace Tron {
         if (s_Data.QuadIndexCount >= Tron::Renderer2DData::MaxIndices) {
             FlushAndReset();
         }
-
-        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-              * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 
         for (size_t i = 0; i < quadVertexCount; i++) {
             s_Data.QuadVertexBufferPointer->Position = transform * s_Data.QuadVertexPositions[i];
@@ -188,11 +225,9 @@ namespace Tron {
         s_Data.Stats.QuadCount++;
     }
 
-    void Renderer2D::DrawQuad(const glm::vec2 &position, const glm::vec2 &size, const Ref<Texture2D> &texture, float tilingFactor, const glm::vec4& tintColor) {
-        DrawQuad({position.x, position.y, 0.0f}, size, texture, tilingFactor, tintColor);
-    }
+    void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
+    {
 
-    void Renderer2D::DrawQuad(const glm::vec3 &position, const glm::vec2 &size, const Ref<Texture2D> &texture, float tilingFactor, const glm::vec4& tintColor) {
         TN_PROFILE_FUNCTION();
 
         constexpr size_t quadVertexCount = 4;
@@ -206,7 +241,7 @@ namespace Tron {
         float textureIndex = 0.0f;
         for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
         {
-            if (*s_Data.TextureSlots[i].get() == *texture.get())
+            if (*s_Data.TextureSlots[i] == *texture)
             {
                 textureIndex = (float)i;
                 break;
@@ -215,15 +250,12 @@ namespace Tron {
 
         if (textureIndex == 0.0f) {
             if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
-				FlushAndReset();
+                FlushAndReset();
 
             textureIndex = (float)s_Data.TextureSlotIndex;
             s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
             s_Data.TextureSlotIndex++;
         }
-
-        glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-              * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 
         for (size_t i = 0; i < quadVertexCount; i++) {
             s_Data.QuadVertexBufferPointer->Position = transform * s_Data.QuadVertexPositions[i];

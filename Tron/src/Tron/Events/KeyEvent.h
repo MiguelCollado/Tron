@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Tron/Events/Event.h"
-#include "Tron/Core/Input.h"
+#include "Tron/Core/KeyCodes.h"
 
 namespace Tron {
 
@@ -11,7 +11,7 @@ namespace Tron {
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
-		explicit KeyEvent(KeyCode keycode)
+		explicit KeyEvent(const KeyCode keycode)
 			: m_KeyCode(keycode) {}
 
         KeyCode m_KeyCode;
@@ -19,10 +19,10 @@ namespace Tron {
 
 	class KeyPressedEvent : public KeyEvent {
 	public:
-		KeyPressedEvent(KeyCode keycode, int repeatCount)
+		KeyPressedEvent(const KeyCode keycode, const uint16_t repeatCount)
 			: KeyEvent(keycode), m_RepeatCount(repeatCount) {}
 
-		[[nodiscard]] int GetRepeatCount() const { return m_RepeatCount; }
+		[[nodiscard]] uint16_t GetRepeatCount() const { return m_RepeatCount; }
 
 		[[nodiscard]] std::string ToString() const override {
 			std::stringstream ss;
@@ -32,12 +32,12 @@ namespace Tron {
 
 		EVENT_CLASS_TYPE(KeyPressed);
 	private:
-		int m_RepeatCount;
+		uint16_t m_RepeatCount;
 	};
 
 	class KeyReleasedEvent : public KeyEvent {
 	public:
-		explicit KeyReleasedEvent(KeyCode keycode)
+		explicit KeyReleasedEvent(const KeyCode keycode)
 			: KeyEvent(keycode) {}
 
 		[[nodiscard]] std::string ToString() const override {

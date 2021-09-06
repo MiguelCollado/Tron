@@ -2,13 +2,12 @@
 
 #include "Event.h"
 #include "Tron/Core/MouseCodes.h"
-#include "Tron/Core/KeyCodes.h"
 
 namespace Tron {
 
 	class MouseMovedEvent : public Event {
 	public:
-		MouseMovedEvent(float x, float y)
+		MouseMovedEvent(const float x, const float y)
 			: m_MouseX(x), m_MouseY(y) {}
 
 		[[nodiscard]] float GetX() const { return m_MouseX; }
@@ -28,7 +27,7 @@ namespace Tron {
 
 	class MouseScrolledEvent : public Event {
 	public:
-		MouseScrolledEvent(float xOffset, float yOffset)
+		MouseScrolledEvent(const float xOffset, const float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset) {}
 
 		[[nodiscard]] float GetXOffset() const { return m_XOffset; }
@@ -52,7 +51,7 @@ namespace Tron {
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		explicit MouseButtonEvent(MouseCode button)
+		explicit MouseButtonEvent(const MouseCode button)
 			: m_Button(button) {}
 
         MouseCode m_Button;
@@ -60,7 +59,7 @@ namespace Tron {
 
 	class MouseButtonPressedEvent : public MouseButtonEvent {
 	public:
-		explicit MouseButtonPressedEvent(MouseCode button)
+		explicit MouseButtonPressedEvent(const MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		[[nodiscard]] std::string ToString() const override {
@@ -74,7 +73,7 @@ namespace Tron {
 
 	class MouseButtonReleasedEvent : public MouseButtonEvent {
 	public:
-		explicit MouseButtonReleasedEvent(MouseCode button)
+		explicit MouseButtonReleasedEvent(const MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		[[nodiscard]] std::string ToString() const override {
